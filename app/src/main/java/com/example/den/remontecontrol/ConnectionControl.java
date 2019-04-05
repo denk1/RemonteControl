@@ -1,5 +1,6 @@
 package com.example.den.remontecontrol;
 
+import android.graphics.PointF;
 import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
@@ -30,11 +31,17 @@ public class ConnectionControl {
             ws.addListener(new WebSocketAdapter() {
                 @Override
                 public void onTextMessage(WebSocket websocket, String message) throws Exception {
-                    Log.d("TAG", "onTextMessage: " + message);
                     // Send message to main thread Handler.
                     JSONObject jsonMessage = new JSONObject(message);
                     String messageSpeed = jsonMessage.getString("speed");
+                    JSONObject jsonLocation = jsonMessage.getJSONObject("location");
+                    String xLocation = jsonLocation.getString("x");
+                    String zLocation = jsonLocation.getString("z");
+                    PointF pointFLocation = new PointF();
+                    pointFLocation.set(Float.valueOf(xLocation), Float.valueOf(zLocation));
+                    Log.d("TAG", "{\"speed\": \"" + messageSpeed + "\", \"location\": {" + "\"x\":\"" + xLocation + "\", \"z\":\"" + zLocation + "\"}}");
                     infoManager.handleParam(Float.valueOf(messageSpeed), InfoManager.CURRENT_VELOCITY_VALUE);
+
                 }
             });
 
