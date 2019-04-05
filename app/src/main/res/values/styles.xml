@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        
+    </style>
+    <style name="MyTextView" parent="android:Widget.TextView">
+        <item name="android:textSize">22sp</item>
+        <item name="android:background">#000000</item>
+    </style>
+    <style name="EngineTab" parent="android:Widget.TextView">
+        <item name="android:textColor">#FFAA00</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">10sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginRight">30sp</item>
+        <item name="android:layout_marginBottom">10sp</item>
+
+    </style>
+    <style name="odo_style" parent="android:Widget.TextView">
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">#FFAA00</item>
+    </style>
+    <style name="info_item" parent="android:Widget.TextView" >
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">#FFAA00</item>
+    </style>
+
+    <style name="info_subitem" parent="android:Widget.TextView" >
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#FFAA00</item>
+    </style>
+
+    <style name="indicator">
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_width">24dp</item>
+    </style>
+
+</resources>

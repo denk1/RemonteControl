@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorMainErrorConnect">#FF0000</color>
+    <color name="colorTextViewWork">#000000</color>
+    <color name="colorTextViewWorkBack">#00FF00</color>
+    <color name="colorTableBack">#FFFFFF</color>
+    <color name="tab1Color">#FFC916</color>
+    <color name="tab2Color">#DA8200</color>
+    <color name="tab3Color">#5B89FF</color>
+    <color name="colorAlarm">#FF0000</color>
+    <color name="colorOk">#00FF00</color>
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--show action bar-->
+    <item
+        android:title="карта"
+        android:id="@+id/title2"
+        android:icon="@drawable/icon_map"
+        app:showAsAction="always" />
+    <item
+        android:title="Ошибки"
+        android:id="@+id/title5"
+        android:icon="@drawable/icon_error"
+        app:showAsAction="always" />
+    <item
+        android:title="@string/menu_item3"
+        android:id="@+id/title3"
+        android:icon="@drawable/icon_control"
+        app:showAsAction="always" />
+    <item
+        android:title="@string/menu_item4"
+        android:id="@+id/title4"
+        android:icon="@drawable/icon_info"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">ПДУ</string>
+    <string name="menu_item1">Настройка</string>
+    <string name="menu_item2">Выход</string>
+    <string name="menu_item3">Управление</string>
+    <string name="menu_item4">Информация</string>
+    <string name="button_connect">Подключение к БТС</string>
+    <string name="text_view_select">Выбор БТС</string>
+    <string name="text_view_work">Обмен данными с БТС включен</string>
+    <string name="text_view_error">Ошибки в работе VCU</string>
+    <string name="table_column_date">Дата и время</string>
+    <string name="table_column_error_code">Код ошибки</string>
+    <string name="table_column_device">Название узла</string>
+    <string name="table_column_level_emergency">Степень критичности</string>
+    <string name="table_column_description">Описание ошибки</string>
+    <string name="tab_one_title">Руление</string>
+    <string name="tab_two_title">Движение</string>
+    <string name="tab_three_title">Освещение</string>
+    <string name="tab_control_steer">Поворот передней оси</string>
+    <string name="tab_control_steer_back">Поворот задней оси</string>
+    <string name="tab_control_vehicle_turn">Скорость поворота</string>
+    <string name="tab_info_one_title">Показания датчиков</string>
+    <string name="tab_info_two_title">Состояние систем</string>
+    <string name="tab_info_three_title">Состояние БКЭ</string>
+    <string name="tab_info_four_title">Состояние ИНС</string>
+    <string name="subtab_info_steer_title">Рулевые рейки</string>
+    <string name="subtab_info_velocity_title">Текущая скорость</string>
+    <string name="subtab_info_ac_dc_title">Батарея и питание</string>
+    <string name="subtab_info_engine_title">Параметры двигателя</string>
+    <string name="subtab_info_pressure_tempture_title">Температура, давление</string>
+    <string name="subtab_info_navigation_title">Навигация</string>
+</resources>

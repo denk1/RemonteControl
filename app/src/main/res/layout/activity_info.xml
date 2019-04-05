@@ -1,0 +1,1305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TabHost
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TabWidget>
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:background="@color/colorTableBack"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TabHost
+                        android:id="@+id/subTabHost"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TabWidget
+                                android:id="@android:id/tabs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </TabWidget>
+                            <FrameLayout
+                                android:id="@android:id/tabcontent"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" >
+                                <LinearLayout
+                                    android:id="@+id/subTab1"
+                                    android:background="@color/colorTextViewWork"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:text="Рулевые рейки"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <TableLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:stretchColumns="0">
+                                        <TableRow
+                                            android:layout_height="match_parent"
+                                            android:layout_width="match_parent">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="76dp"
+                                                android:layout_margin="10dp"
+                                                tools:layout_editor_absoluteY="230dp">
+
+                                                <ProgressBar
+                                                    android:id="@+id/progressBarFront"
+                                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+
+                                                    android:layout_toLeftOf="@id/textViewFrontProc"
+                                                    android:background="@drawable/progress_bar"
+                                                    android:layout_below="@id/textViewLabelNameFront"
+                                                    android:layout_marginTop="10dp"
+                                                    />
+
+                                                <TextView
+                                                    android:id="@+id/textViewFrontProc"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_below="@+id/textViewLabelWarnFront"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:gravity="center_vertical|center_horizontal"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="10dp"
+                                                    android:text="50%"
+                                                    android:textSize="20dp"
+                                                    style="@style/info_subitem"/>
+
+                                                <TextView
+                                                    android:id="@+id/textViewLabelNameFront"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_alignParentLeft="true"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_marginBottom="0dp"
+                                                    android:text="Статус передней рейки"
+                                                    style="@style/info_subitem"/>
+
+                                                <TextView
+                                                    android:id="@+id/textViewLabelWarnFront"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_below="@+id/progressBarFront"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_alignParentRight="true"
+                                                    android:layout_marginBottom="0dp"
+                                                    android:text="Потеря связи с рейкой"
+                                                    style="@style/info_subitem"/>
+
+                                            </RelativeLayout>
+                                        </TableRow>
+                                        <TableRow
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="73dp"
+                                                android:layout_margin="10dp"
+                                                tools:layout_editor_absoluteY="350dp">
+
+                                                <ProgressBar
+                                                    android:id="@+id/progressBarRear"
+                                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_toLeftOf="@id/textViewRearProc"
+                                                    android:background="@drawable/progress_bar"
+                                                    android:layout_below="@id/textViewLabelName"
+                                                    android:layout_marginTop="10dp"
+                                                    />
+
+                                                <TextView
+                                                    android:id="@+id/textViewRearProc"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_below="@+id/textViewLabelWarnRear"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:gravity="center_vertical|center_horizontal"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="10dp"
+                                                    android:text="50%"
+                                                    android:textSize="20dp"
+                                                    style="@style/info_subitem"/>
+
+                                                <TextView
+                                                    android:id="@+id/textViewLabelName"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_alignParentLeft="true"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_marginBottom="0dp"
+                                                    android:text="Статус передней рейки"
+                                                    style="@style/info_subitem"/>
+
+                                                <TextView
+                                                    android:id="@+id/textViewLabelWarnRear"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_below="@+id/progressBarRear"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_alignParentRight="true"
+                                                    android:layout_marginBottom="0dp"
+                                                    android:text="Потеря связи с рейкой"
+                                                    style="@style/info_subitem" />
+
+                                            </RelativeLayout>
+                                        </TableRow>
+                                    </TableLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/subTab2"
+                                    android:background="@color/colorTextViewWork"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:text="Текущая скорость"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/info_subitem"/>
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="скорость по ротору"
+                                            android:layout_alignParentStart="true"
+                                            style="@style/info_subitem" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="150dp"
+                                            android:text="0"
+                                            android:layout_alignParentStart="true"
+                                            style="@style/info_subitem" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="скорость по НС"
+                                            android:layout_alignParentEnd="true"
+                                            style="@style/info_subitem" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="150dp"
+                                            android:text="0"
+                                            android:layout_alignParentEnd="true"
+                                            style="@style/info_subitem" />
+                                    </RelativeLayout>
+
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/subTab3"
+                                    android:background="@color/colorTextViewWork"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:text="Батарея и питание"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/info_subitem" />
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="73dp"
+                                        android:layout_margin="10dp"
+                                        tools:layout_editor_absoluteY="350dp">
+
+                                        <ProgressBar
+                                            android:id="@+id/progressBarBattery"
+                                            style="@android:style/Widget.ProgressBar.Horizontal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_toLeftOf="@id/textViewBatteryProc"
+                                            android:background="@drawable/progress_bar"
+                                            android:layout_below="@id/textViewLabelNameBattery"
+                                            android:layout_marginTop="10dp"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/textViewBatteryProc"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:layout_below="@+id/textViewLabelNameBattery"
+                                            android:layout_alignParentEnd="true"
+                                            android:gravity="center_vertical|center_horizontal"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="10dp"
+                                            android:text="0%"
+                                            android:textSize="20dp"
+                                            style="@style/info_subitem"/>
+
+                                        <TextView
+                                            android:id="@+id/textViewLabelNameBattery"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginBottom="0dp"
+                                            android:text="Заряд батареи"
+                                            style="@style/info_subitem" />
+
+
+                                    </RelativeLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="10dp">
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="максимальный разрядный ток"
+                                            android:layout_alignParentStart="true"
+                                            style="@style/info_subitem" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0A"
+                                            android:layout_alignParentEnd="true"
+                                            style="@style/info_subitem" />
+
+                                    </RelativeLayout>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="10dp">
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="потребляемый ток"
+                                            style="@style/info_subitem"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0A"
+                                            android:layout_alignParentEnd="true"
+                                            style="@style/info_subitem"/>
+
+                                    </RelativeLayout>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/subTab4"
+                                    android:background="@color/colorTextViewWork"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    >
+                                    <TextView
+                                        android:text="Параметры двигателя"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        style="@style/info_subitem"/>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Заданые обороты"
+                                        style="@style/EngineTab"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"
+                                        android:layout_alignParentEnd="true"
+                                        style="@style/EngineTab"
+                                        />
+                                    </RelativeLayout>
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Текущие обороты"
+                                            style="@style/EngineTab"
+                                            />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0"
+                                            android:layout_alignParentEnd="true"
+                                            style="@style/EngineTab"
+                                            />
+                                    </RelativeLayout>
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Текущий момент"
+                                            style="@style/EngineTab"
+                                            />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="0"
+                                            android:layout_alignParentEnd="true"
+                                            style="@style/EngineTab"
+                                            />
+                                    </RelativeLayout>
+
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/subTab5"
+                                    android:background="@color/colorTextViewWork"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:text="Температуры, давление"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                    <TableLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:stretchColumns="0">
+                                        <TableRow
+                                            android:layout_height="match_parent"
+                                            android:layout_width="match_parent">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="76dp"
+                                                android:layout_margin="10dp"
+                                                tools:layout_editor_absoluteY="230dp">
+
+                                                <ProgressBar
+                                                    android:id="@+id/progressBarTemptureEngine"
+                                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+
+                                                    android:layout_toLeftOf="@id/textViewTempture"
+                                                    android:background="@drawable/progress_bar"
+                                                    android:layout_below="@id/textViewLabelNameTemptureEngine"
+                                                    android:layout_marginTop="10dp"
+                                                    />
+
+                                                <TextView
+                                                    android:id="@+id/textViewTempture"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:gravity="center_vertical|center_horizontal"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="10dp"
+                                                    android:text="0C"
+                                                    android:textSize="20dp"
+                                                    style="@style/info_subitem" />
+
+                                                <TextView
+                                                    android:id="@+id/textViewLabelNameTemptureEngine"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_alignParentLeft="true"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_marginBottom="0dp"
+                                                    android:text="Температура двигателя"
+                                                    style="@style/info_subitem" />
+
+
+
+                                            </RelativeLayout>
+                                        </TableRow>
+                                        <TableRow
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="73dp"
+                                                android:layout_margin="10dp"
+                                                tools:layout_editor_absoluteY="350dp">
+
+                                                <ProgressBar
+                                                    android:id="@+id/progressBarTempDC-DC"
+                                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_toLeftOf="@id/textViewTemptureDC-DC"
+                                                    android:background="@drawable/progress_bar"
+                                                    android:layout_below="@id/textViewLabelNameDC-DC"
+                                                    android:layout_marginTop="10dp"
+                                                    />
+
+                                                <TextView
+                                                    android:id="@+id/textViewTemptureDC-DC"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_alignParentEnd="true"
+                                                    android:gravity="center_vertical|center_horizontal"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="10dp"
+                                                    android:text="0C"
+                                                    android:textSize="20dp"
+                                                    style="@style/info_subitem"/>
+
+                                                <TextView
+                                                    android:id="@+id/textViewLabelNameDC-DC"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_alignParentLeft="true"
+                                                    android:layout_alignParentTop="true"
+                                                    android:layout_marginBottom="0dp"
+                                                    android:text="Температура DC-DC"
+                                                    style="@style/info_subitem"/>
+
+
+
+                                            </RelativeLayout>
+                                        </TableRow>
+                                    </TableLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/subTab6"
+                                    android:background="@color/colorTextViewWork"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:text="Навигация"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:baselineAligned="false"
+                                            android:orientation="horizontal"
+                                            >
+
+                                            <RelativeLayout
+                                                android:id="@+id/relativeLayoutGPS"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_margin="5dp"
+                                                android:layout_weight="1"
+
+                                                >
+
+                                                <TextView
+                                                    android:id="@+id/textViewGPS"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:gravity="center_horizontal"
+                                                    android:text="Координаты GPS"
+                                                    style="@style/info_subitem"
+
+                                                    />
+
+                                                <LinearLayout
+                                                    android:id="@+id/linearLayoutGPS"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_below="@id/textViewGPS"
+                                                    android:layout_margin="10dp"
+                                                    android:background="@drawable/border_navigation"
+                                                    android:orientation="vertical">
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text1"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text2"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text3"
+                                                        style="@style/info_subitem"/>
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text4"
+                                                        style="@style/info_subitem"/>
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text5"
+                                                        style="@style/info_subitem"/>
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text6"
+                                                        style="@style/info_subitem"/>
+
+
+                                                </LinearLayout>
+                                            </RelativeLayout>
+
+                                            <RelativeLayout
+                                                android:id="@+id/releativeLayoutINS"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_margin="5dp"
+                                                android:layout_weight="1">
+
+                                                <TextView
+                                                    android:id="@+id/textViewINS"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:gravity="center_horizontal"
+                                                    style="@style/info_subitem"
+                                                    android:text="Координаты ИНС" />
+
+                                                <LinearLayout
+                                                    android:id="@+id/linearLayoutINS"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_below="@id/textViewINS"
+                                                    android:layout_margin="10dp"
+                                                    android:background="@drawable/border_navigation"
+                                                    android:orientation="vertical">
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text7"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text8"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text9"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text10"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text11"
+                                                        style="@style/info_subitem" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="text12"
+                                                        style="@style/info_subitem" />
+                                                </LinearLayout>
+                                            </RelativeLayout>
+                                        </LinearLayout>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="vertical">
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:text="Путь, проделанный передним левым колесом"
+                                                android:layout_weight="1"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:text="0M"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:text="Путь, проделанный передним правым колесом"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:text="0М"
+                                                android:layout_weight="1"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:text="Путь, проделанный задним левым колесом"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:text="0М"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:text="Путь, проделанный задним правым колесом"
+                                                android:layout_weight="1"
+                                                style="@style/odo_style"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:text="0M"
+                                                style="@style/odo_style"/>
+
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </FrameLayout>
+                        </LinearLayout>
+                    </TabHost>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:background="@color/colorTextViewWork"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            style="@style/info_item">
+                            <TextView
+                                android:id="@+id/textViewEmergenticyStop"
+                                style="@style/indicator"
+                                android:background="@color/colorOk"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewEmergenticyStop"
+                                android:layout_width="match_parent"
+                                style="@style/info_item"
+                                android:gravity="center"
+                                android:text="Аварийного торможения НЕТ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            style="@style/info_item">
+                            <TextView
+                                android:id="@+id/textViewLinkConnection"
+                                android:background="@color/colorOk"
+                                style="@style/indicator"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewLinkConnection"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                android:text="Потери связи НЕТ"
+                                style="@style/info_item"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewError370V"
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewError370V"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Oшибок системы 370V НЕТ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewContact"
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewContact"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Контакторы замкнуты"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewDC-DC"
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewDC-DC"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Преобразователь DC-DC"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewEnoughMoment"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewEnoughMoment"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Момента достаточно"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:background="@color/colorTextViewWork"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            style="@style/info_item">
+                            <TextView
+                                android:id="@+id/textViewIsDoorClosed"
+                                style="@style/indicator"
+                                android:background="@color/colorOk"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewIsDoorClosed"
+                                android:layout_width="match_parent"
+                                style="@style/info_item"
+                                android:gravity="center"
+                                android:text="Двери закрыты"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            style="@style/info_item">
+                            <TextView
+                                android:id="@+id/textViewClimateControl"
+                                android:background="@color/colorOk"
+                                style="@style/indicator"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewClimateControl"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                android:text="Климат-контроль ВКЛ"
+                                style="@style/info_item"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewLeftFLM"
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewLeftFLM"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="ДХО лев. ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewRightFLM"
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewRightFLM"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="ДХО прав. ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewLowBeamLeft"
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator"/>
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewLowBeamLeft"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Ближний свет Л ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewLowBeamRight"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewLowBeamRight"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Ближний свет П ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewHightBeamLeft"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewHightBeamLeft"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Дальний свет Л ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewHightBeamRight"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewHightBeamRight"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Дальний свет П ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewClearanceLightFront"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewClearanceLightFront"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Габаритный огонь П ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewClearanceLightRear"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewClearanceLightRear"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Габаритный огонь З ВКЛ"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewTurnLeftSignal"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewTurnLeftSignal"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Поворотный огонь Л"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewTurnRightSignal"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewTurnRightSignal"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Поворотный огонь П"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewStopLeftSignal"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewStopLeftSignal"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Стоп-огонь Л"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewStopRightSignal"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewStopRightSignal"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Стоп-огонь П"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewRearMoveSignal"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewRearMoveSignal"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Огни заднего хода"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/textViewHandleBreak"
+
+                                android:background="@color/colorAlarm"
+                                style="@style/indicator" />
+                            <TextView
+                                android:layout_toRightOf="@+id/textViewHandleBreak"
+                                android:layout_width="match_parent"
+                                android:gravity="center"
+                                style="@style/info_item"
+                                android:text="Ручник опущен"
+                                android:layout_alignParentEnd="true"/>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab4"
+                    android:background="@color/colorTextViewWork"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewCorrGPS"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewCorrGPS"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Коррекция от СНС"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewVerifyGPS"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewVerifyGPS"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Достоверность данных от СНС"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewCorrVelocity"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewCorrVelocity"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Корр. по 0-лин. скор."
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewIsOkINS"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewIsOkINS"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Исправность ИНС"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewIsOkGPS"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewIsOkGPS"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Исправность CНС"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewIsReadyINS"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewIsReadyINS"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Готовность ИНС"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewCorrDPP"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewCorrDPP"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="Коррекция курса от ДПП"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/textViewIsCorrDPP"
+
+                            android:background="@color/colorAlarm"
+                            style="@style/indicator" />
+                        <TextView
+                            android:layout_toRightOf="@+id/textViewIsCorrDPP"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            style="@style/info_item"
+                            android:text="ЕСТЬ корр. курса от ДПП"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+</LinearLayout>

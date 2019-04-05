@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ErrorActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorTextViewWork">
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/info_item"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/text_view_error"
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="383dp"
+            android:layout_marginTop="8dp"
+            android:stretchColumns="0,1,2,3,4"
+
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_margin="1dp"
+                android:background="#FFFFFF">
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="@string/table_column_date" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="1"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="@string/table_column_error_code" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="2"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="@string/table_column_device" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="3"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="@string/table_column_level_emergency" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="4"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="@string/table_column_description" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_margin="1dp"
+                android:background="#FFFFFF">
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="20-11-2018 10:56" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="1"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="P0175" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="2"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="the electric pump" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="3"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="высокая" />
+
+                <TextView
+                    style="@style/info_subitem"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="4"
+                    android:layout_margin="1dp"
+                    android:background="#000000"
+                    android:gravity="center"
+                    android:text="Power Steering Faulty" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
