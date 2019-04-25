@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -23,14 +24,17 @@ public class MapSurfaceView extends SurfaceView implements Runnable {
     SurfaceHolder holder;
     Bitmap bitmap;
     Bitmap bitmapCar;
-    float x = 250.0f, y = 1000.0f, dx = 0, dy = 0;
+    float x = 512.0f, y = 512.0f, dx = 0, dy = 0;
     float x0 = 0, y0 = 0;
     final float scaleX = 0.75f, scaleY = 0.75f;
     private Matrix matrix = new Matrix();
     private Matrix matrixLane = new Matrix();
     private Matrix matrixCar = new Matrix();
-
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private PointF pointFCarLocation = new PointF();
+    private float currentYaw = 0.0f;
+
+    Vehicle vehicle = null;
 
     private void init() {
         surfaceHolder = getHolder();
@@ -74,11 +78,8 @@ public class MapSurfaceView extends SurfaceView implements Runnable {
         holder.setFormat(PixelFormat.TRANSLUCENT);
         thread = new Thread(this);
         matrix.setScale(scaleX, scaleY);
-        matrixCar.postRotate(90.0f);
-        matrixCar.postScale(scaleX/3.6f, scaleY/3.6f);
-        matrixCar.postTranslate(1750.0f, 1000.f);
-
-        //matrixCar.setRotate(90.0f);
+        InfoParameters infoParameters = InfoParameters.createInfoParameters();
+        infoParameters.setViewOfParam("map", this);
     }
 
     public MapSurfaceView(Context context) {
@@ -122,8 +123,15 @@ public class MapSurfaceView extends SurfaceView implements Runnable {
                     canvas.drawColor(Color.WHITE);
                     //Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                     canvas.setMatrix(matrix);
-                    matrixLane.setTranslate(x + dx, y + dy);
+                    matrixLane.setTranslate(-bitmap.getWidth()/2.0f, -bitmap.getHeight()/2.0f);
+                    matrixLane.postRotate(90.0f);
+                    matrixLane.postTranslate(x + dx + 6050.0f, y + dy + 6050.0f);
                     canvas.drawBitmap(bitmap, matrixLane, null);
+                    matrixCar.setTranslate(-bitmapCar.getWidth()/2, -bitmapCar.getHeight()/2);
+                    matrixCar.postRotate(-currentYaw + 180);
+                    matrixCar.postTranslate((pointFCarLocation.x * 11.8f + x + dx) * 3.6f / scaleX, (pointFCarLocation.y * 11.8f + y + dy) * 3.6f / scaleY);
+                    matrixCar.postScale(scaleX/3.6f, scaleY/3.6f);
+
                     canvas.drawBitmap(bitmapCar, matrixCar, null);
                 }
             }
@@ -133,8 +141,20 @@ public class MapSurfaceView extends SurfaceView implements Runnable {
             }
 
         }
-        int test = 2 * 4;
     }
+
+    public void setCarLocation() {
+        pointFCarLocation = vehicle.getCurrentLocation();
+    }
+
+    public void setCarYaw() {
+        currentYaw = vehicle.getCurrentYaw();
+    }
+
+    public void setVehicle(Vehicle car) {
+        vehicle = car;
+    }
+
 
 
 }

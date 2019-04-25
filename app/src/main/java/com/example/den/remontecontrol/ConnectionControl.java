@@ -35,13 +35,18 @@ public class ConnectionControl {
                     JSONObject jsonMessage = new JSONObject(message);
                     String messageSpeed = jsonMessage.getString("speed");
                     JSONObject jsonLocation = jsonMessage.getJSONObject("location");
+                    String strYaw = jsonMessage.getString("yaw");
+                    String strCurrSteeringAngle = jsonMessage.getString("current_steering_angle");
                     String xLocation = jsonLocation.getString("x");
                     String zLocation = jsonLocation.getString("z");
                     PointF pointFLocation = new PointF();
                     pointFLocation.set(Float.valueOf(xLocation), Float.valueOf(zLocation));
+                    Float yaw = Float.valueOf(strYaw);
                     Log.d("TAG", "{\"speed\": \"" + messageSpeed + "\", \"location\": {" + "\"x\":\"" + xLocation + "\", \"z\":\"" + zLocation + "\"}}");
                     infoManager.handleParam(Float.valueOf(messageSpeed), InfoManager.CURRENT_VELOCITY_VALUE);
-
+                    infoManager.handleParam(pointFLocation, InfoManager.CURRENT_LOCATION_VALUE);
+                    infoManager.handleParam(yaw, InfoManager.CURRENT_YAW_VALUE);
+                    infoManager.handleParam(Float.valueOf(strCurrSteeringAngle), InfoManager.CURRENT_STEERING_ANGLE);
                 }
             });
 

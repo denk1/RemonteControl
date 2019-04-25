@@ -1,5 +1,6 @@
 package com.example.den.remontecontrol;
 
+import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -12,6 +13,8 @@ public class InfoManager {
 
     public static final int CURRENT_VELOCITY_VALUE = 1;
     public static final int CURRENT_LOCATION_VALUE = 2;
+    public static final int CURRENT_YAW_VALUE = 3;
+    public static final int CURRENT_STEERING_ANGLE = 4;
 
     public static InfoManager createInfoManager() {
         if(infoManager==null) {
@@ -38,7 +41,14 @@ public class InfoManager {
                         break;
 
                     case CURRENT_LOCATION_VALUE:
+                        vehicle.setCurrentLocation((PointF)objParameter);
                         break;
+
+                    case CURRENT_YAW_VALUE:
+                        vehicle.setCurrentYaw((Float)objParameter);
+
+                    case CURRENT_STEERING_ANGLE:
+                        vehicle.setCurrentSteeringAngle((Float)objParameter);
 
                     default:
                         /*

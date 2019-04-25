@@ -23,8 +23,10 @@ public class ControlActivity extends AppCompatActivity {
     SeekBar seekBarTurnFront;
     SeekBar seekBarTurnRear;
     SeekBar seekBarTurnVelocity;
+    SeekBar seekBarCurrAngle;
     Context cxt;
     TextView textViewSteerCorner, textViewSteerRearCorner;
+    TextView textBoxCurrSteer;
 
     // joystick
 
@@ -50,6 +52,14 @@ public class ControlActivity extends AppCompatActivity {
         seekBarTurnFront = findViewById(R.id.seekBar);
         seekBarTurnRear = findViewById(R.id.seekBar1);
         seekBarTurnVelocity = findViewById(R.id.seekBar2);
+        seekBarCurrAngle = findViewById(R.id.seekBarCurrAngle);
+        textBoxCurrSteer = findViewById(R.id.textBoxCurrSteer);
+        seekBarCurrAngle.setOnTouchListener(new SeekBar.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         seekBarTurnFront.setMax(100);
         seekBarTurnFront.setProgress(50);
         seekBarTurnRear.setMax(100);
@@ -198,6 +208,8 @@ public class ControlActivity extends AppCompatActivity {
         TextView txtViewVelocityValue = (TextView)findViewById(R.id.velocity_value);
         InfoParameters infoParameters = InfoParameters.createInfoParameters();
         infoParameters.setViewOfParam("velocity", txtViewVelocityValue);
+        infoParameters.setViewOfParam("seekBarCurrAngle", seekBarCurrAngle);
+        infoParameters.setViewOfParam("textBoxCurrSteer", textBoxCurrSteer);
 
         // drive pannel
 

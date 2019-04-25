@@ -27,16 +27,15 @@ public class WorkActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id==R.id.title1) {
-            String message = "Item1 Cliked";
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         //    itemRelease(message);
+        //    startGlobalMapActivity();
+            startGoogleMapsActivity();
         }
         if(id==R.id.title2) {
             startMapActivity();
         }
         if(id==R.id.title3) {
-            String message = "Item3 Cliked";
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
             startControlActivity();
         }
         if(id==R.id.title4) {
@@ -75,6 +74,14 @@ public class WorkActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startGlobalMapActivity() {
+        Intent intent = new Intent(this, GlobalMapActivity.class);
+        startActivity(intent);
+    }
 
+    private void startGoogleMapsActivity() {
+        Intent intent =new Intent(this, GoogleMapsActivity.class);
+        startActivity(intent);
+    }
 
 }
