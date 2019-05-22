@@ -80,7 +80,7 @@ public class WorkActivity extends AppCompatActivity {
     }
 
     private void startGoogleMapsActivity() {
-        Intent intent =new Intent(this, GoogleMapsActivity.class);
+        Intent intent =new Intent(this, CarMapActivity.class);
         startActivity(intent);
     }
 

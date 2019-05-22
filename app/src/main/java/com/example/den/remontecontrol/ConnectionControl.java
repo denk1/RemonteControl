@@ -26,7 +26,7 @@ public class ConnectionControl {
         // value for socket connection.
         WebSocketFactory factory = new WebSocketFactory().setConnectionTimeout(5000);
         try {
-            ws = factory.createSocket("ws://192.168.12.49:6789/");
+            ws = factory.createSocket("ws://10.91.1.33:6789/");
 
             ws.addListener(new WebSocketAdapter() {
                 @Override

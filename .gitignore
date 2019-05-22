@@ -10,3 +10,5 @@
 /captures
 .externalNativeBuild
 *.apk
+goodle_maps_api.xml
+/app/src/main/AndroidManifest.xml

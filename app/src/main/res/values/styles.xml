@@ -47,5 +47,13 @@
         <item name="android:layout_height">24dp</item>
         <item name="android:layout_width">24dp</item>
     </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">#FFAA00</item>
+        <item name="android:textColorSecondary">#FFAA00</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">#FFAA00</item>
+        <item name="android:textColorSecondary">#FFAA00</item>
+    </style>
 
 </resources>
