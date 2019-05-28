@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -80,11 +81,12 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     private String TAG = "CapMapActivity";
 
     // Give your Server URL here >> where you get car location update
-    public static final String URL_DRIVER_LOCATION_ON_RIDE = "http://10.91.1.33:8080";
+    public static final String URL_DRIVER_LOCATION_ON_RIDE = "http://192.168.4.1:8080";
 
     private boolean isFirstPosition = true;
     private Double startLatitude;
     private Double startLongitude;
+    private Client mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,8 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
 //               staticPolyLine();
 //                dynamicPolyLine();
-                startGettingOnlineDataFromCar();
+//                startGettingOnlineDataFromCar();
+                new ConnectTask().execute("");
 
             }
         });
@@ -435,5 +438,72 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         greyPolyLine = googleMap.addPolyline(polylineOptions);
 
 
+    }
+
+
+    public class ConnectTask extends AsyncTask<String, Double[], Client> {
+
+        @Override
+        protected Client doInBackground(String... message) {
+
+            //we create a TCPClient object and
+            mClient = new Client(new Client.OnMessageReceived() {
+                @Override
+                //here the messageReceived method is implemented
+                public void messageReceived(Double[] message) {
+                    //this method calls the onProgressUpdate
+                    publishProgress(message);
+                }
+            });
+            mClient.run();
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Double[]... values) {
+            super.onProgressUpdate(values);
+            startLatitude = values[0][1] * 180.0/3.14;
+            startLongitude = values[0][2]* 180.0/3.14;
+
+            Log.d(TAG, startLatitude + "--" + startLongitude);
+
+            if (isFirstPosition) {
+                int height = 100;
+                int width = 100;
+
+                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car);
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, b.getWidth() / 5, b.getHeight() / 5, false);
+                startPosition = new LatLng(startLatitude, startLongitude);
+
+                carMarker = googleMap.addMarker(new MarkerOptions().position(startPosition).
+                        flat(true).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+                carMarker.setAnchor(0.5f, 0.5f);
+
+                googleMap.moveCamera(CameraUpdateFactory
+                        .newCameraPosition
+                                (new CameraPosition.Builder()
+                                        .target(startPosition)
+                                        .zoom(15.5f)
+                                        .build()));
+
+                isFirstPosition = false;
+
+            } else {
+                endPosition = new LatLng(startLatitude, startLongitude);
+
+                Log.d(TAG, startPosition.latitude + "--" + endPosition.latitude + "--Check --" + startPosition.longitude + "--" + endPosition.longitude);
+
+                if ((startPosition.latitude != endPosition.latitude) || (startPosition.longitude != endPosition.longitude)) {
+
+                    Log.e(TAG, "NOT SAME");
+                    startBikeAnimation(startPosition, endPosition);
+
+                } else {
+
+                    Log.e(TAG, "SAMME");
+                }
+            }
+        }
     }
 }
