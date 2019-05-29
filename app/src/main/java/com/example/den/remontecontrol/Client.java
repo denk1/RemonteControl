@@ -19,15 +19,15 @@ public class Client {
     public static final String TAG = Client.class.getSimpleName();
     //public static final String SERVER_IP = "192.168.43.249";
     //public static final int SERVER_PORT = 8888;
-    public static final String SERVER_IP = "192.168.43.249";
+    public static final String SERVER_IP = "10.91.1.33";
     public static final int SERVER_PORT = 50000;
     private OnMessageReceived mMessageListener = null;
     // message to send to the server
-    private String mServerMessage;
 
     private boolean mRun = false;
 
-    private BufferedReader mBufferIn;
+
+    private Double [] doubles = new Double[10];
 
     public Client(OnMessageReceived listener) {
         mMessageListener = listener;
@@ -72,25 +72,20 @@ public class Client {
                         byte[] valueBuff8 = Arrays.copyOfRange(buff, 64, 72);
                         byte[] valueBuff9 = Arrays.copyOfRange(buff, 72, 80);
 
+                        doubles[0] = toDouble(valueBuff);
+                        doubles[1] = toDouble(valueBuff1);
+                        doubles[2] = toDouble(valueBuff2);
+                        doubles[3] = toDouble(valueBuff3);
+                        doubles[4] = toDouble(valueBuff4);
+                        doubles[5] = toDouble(valueBuff5);
+                        doubles[6] = toDouble(valueBuff6);
+                        doubles[7] = toDouble(valueBuff7);
+                        doubles[8] = toDouble(valueBuff8);
+                        doubles[9] = toDouble(valueBuff9);
 
-                        double v = toDouble(valueBuff);
-                        double v1 = toDouble(valueBuff1);
-                        double v2 = toDouble(valueBuff2);
-                        double v3 = toDouble(valueBuff3);
-                        double v4 = toDouble(valueBuff4);
-                        double v5 = toDouble(valueBuff5);
-                        double v6 = toDouble(valueBuff6);
-                        double v7 = toDouble(valueBuff7);
-                        double v8 = toDouble(valueBuff8);
-                        double v9 = toDouble(valueBuff9);
-                        Log.i(TAG, String.valueOf(v1));
-                        Double [] doubles = {v, v1, v2, v3, v4, v5, v6, v7, v8, v9};
                         mMessageListener.messageReceived(doubles);
                     }
                 }
-
-                Log.d("RESPONSE FROM SERVER", "S: Received Message: '" + mServerMessage + "'");
-
             } catch (Exception e) {
                 Log.e("TCP", "S: Error", e);
             } finally {

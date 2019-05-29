@@ -463,8 +463,8 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         @Override
         protected void onProgressUpdate(Double[]... values) {
             super.onProgressUpdate(values);
-            startLatitude = values[0][1] * 180.0/3.14;
-            startLongitude = values[0][2]* 180.0/3.14;
+            startLatitude = values[0][1] /* 180.0/3.14*/;
+            startLongitude = values[0][2]/* 180.0/3.14*/;
 
             Log.d(TAG, startLatitude + "--" + startLongitude);
 
