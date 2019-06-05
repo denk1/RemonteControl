@@ -2,6 +2,7 @@ package com.example.den.remontecontrol;
 
 import android.location.OnNmeaMessageListener;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,22 +18,44 @@ import java.util.Arrays;
 
 public class Client {
     public static final String TAG = Client.class.getSimpleName();
-    //public static final String SERVER_IP = "192.168.43.249";
-    //public static final int SERVER_PORT = 8888;
-    public static final String SERVER_IP = "10.91.1.33";
-    public static final int SERVER_PORT = 50000;
+    public static final String SERVER_IP = "192.168.43.249";
+    public static final int SERVER_PORT = 8080;
+    //public static final String SERVER_IP = "10.91.1.33";
+    //public static final int SERVER_PORT = 50000;
     private OnMessageReceived mMessageListener = null;
     // message to send to the server
 
     private boolean mRun = false;
 
+    private Handler handler;
+
+    Thread sendPositionThread;
+
 
     private Double [] doubles = new Double[10];
 
     public Client(OnMessageReceived listener) {
+        Arrays.fill(doubles, 0.0);
         mMessageListener = listener;
+        sendPositionThread = new Thread(sendPositionInfoRunnable);
     }
 
+    Runnable sendPositionInfoRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (mRun) {
+                try {
+
+
+                    Thread.sleep(2000);
+                }
+                catch (Exception e) {
+
+                }
+                mMessageListener.messageReceived(doubles);
+            }
+        }
+    };
 
     public void run() {
 
@@ -46,6 +69,7 @@ public class Client {
 
             //create a socket to make the connection with the server
             Socket socket = new Socket(serverAddr, SERVER_PORT);
+            sendPositionThread.start();
 
             try {
 
@@ -83,7 +107,6 @@ public class Client {
                         doubles[8] = toDouble(valueBuff8);
                         doubles[9] = toDouble(valueBuff9);
 
-                        mMessageListener.messageReceived(doubles);
                     }
                 }
             } catch (Exception e) {

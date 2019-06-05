@@ -84,8 +84,8 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     public static final String URL_DRIVER_LOCATION_ON_RIDE = "http://192.168.4.1:8080";
 
     private boolean isFirstPosition = true;
-    private Double startLatitude;
-    private Double startLongitude;
+    private double startLatitude;
+    private double startLongitude;
     private Client mClient;
 
     @Override
@@ -463,8 +463,8 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         @Override
         protected void onProgressUpdate(Double[]... values) {
             super.onProgressUpdate(values);
-            startLatitude = values[0][1] /* 180.0/3.14*/;
-            startLongitude = values[0][2]/* 180.0/3.14*/;
+            startLatitude = Double.valueOf(values[0][1])/* 180.0/3.14*/;
+            startLongitude = Double.valueOf(values[0][2])/* 180.0/3.14*/;
 
             Log.d(TAG, startLatitude + "--" + startLongitude);
 
