@@ -18,10 +18,10 @@ import java.util.Arrays;
 
 public class Client {
     public static final String TAG = Client.class.getSimpleName();
-    public static final String SERVER_IP = "192.168.43.249";
-    public static final int SERVER_PORT = 8080;
-    //public static final String SERVER_IP = "10.91.1.33";
-    //public static final int SERVER_PORT = 50000;
+    //public static final String SERVER_IP = "192.168.43.249";
+    //public static final int SERVER_PORT = 8080;
+    public static final String SERVER_IP = "10.91.1.33";
+    public static final int SERVER_PORT = 50000;
     private OnMessageReceived mMessageListener = null;
     // message to send to the server
 

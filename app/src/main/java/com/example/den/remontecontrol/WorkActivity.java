@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class WorkActivity extends AppCompatActivity {
-
+    Intent intentMapsActivity = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +80,10 @@ public class WorkActivity extends AppCompatActivity {
     }
 
     private void startGoogleMapsActivity() {
-        Intent intent =new Intent(this, CarMapActivity.class);
-        startActivity(intent);
+        if(intentMapsActivity == null) {
+            intentMapsActivity = new Intent(this, CarMapActivity.class);
+        }
+        startActivity(intentMapsActivity);
     }
 
 }

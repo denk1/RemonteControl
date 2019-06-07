@@ -1,6 +1,7 @@
 package com.example.den.remontecontrol;
 
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -67,6 +68,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     private SupportMapFragment mapFragment;
     private Handler handler;
     private Marker carMarker;
+    private Marker marker;
     private int index;
     private int next;
     private LatLng startPosition;
@@ -83,10 +85,11 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     // Give your Server URL here >> where you get car location update
     public static final String URL_DRIVER_LOCATION_ON_RIDE = "http://192.168.4.1:8080";
 
-    private boolean isFirstPosition = true;
+    private boolean isFirstPosition;
     private double startLatitude;
     private double startLongitude;
     private Client mClient;
+    private ConnectTask connectTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        connectTask = new ConnectTask();
 
         button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +111,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 //               staticPolyLine();
 //                dynamicPolyLine();
 //                startGettingOnlineDataFromCar();
-                new ConnectTask().execute("");
+                connectTask.execute("");
 
             }
         });
@@ -219,6 +223,17 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onPause() {
         super.onPause();
         stopRepeatingTask();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapFragment.onResume();
+        //isFirstPosition = true;
+        if(connectTask!=null)
+            connectTask.resetFirstPosition();
+
+
     }
 
     @Override
@@ -365,7 +380,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
-                //LogMe.i(TAG, "Car Animation Started...");
+                Log.i(TAG, "Car Animation Started...");
                 v = valueAnimator.getAnimatedFraction();
                 lng = v * end.longitude + (1 - v)
                         * start.longitude;
@@ -373,6 +388,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                         * start.latitude;
 
                 LatLng newPos = new LatLng(lat, lng);
+                Log.i(TAG, lat + "--" + lng);
                 carMarker.setPosition(newPos);
                 carMarker.setAnchor(0.5f, 0.5f);
                 carMarker.setRotation(getBearing(start, end));
@@ -442,6 +458,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
     public class ConnectTask extends AsyncTask<String, Double[], Client> {
+        private boolean isFirstPosition = true;
 
         @Override
         protected Client doInBackground(String... message) {
@@ -466,16 +483,18 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
             startLatitude = Double.valueOf(values[0][1])/* 180.0/3.14*/;
             startLongitude = Double.valueOf(values[0][2])/* 180.0/3.14*/;
 
-            Log.d(TAG, startLatitude + "--" + startLongitude);
 
-            if (isFirstPosition) {
+            Log.i(TAG, startLatitude + "--" + startLongitude);
+
+
+            if (this.isFirstPosition) {
                 int height = 100;
                 int width = 100;
 
                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car);
                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, b.getWidth() / 5, b.getHeight() / 5, false);
                 startPosition = new LatLng(startLatitude, startLongitude);
-
+                marker = googleMap.addMarker(new MarkerOptions().position(startPosition).title("Marker"));
                 carMarker = googleMap.addMarker(new MarkerOptions().position(startPosition).
                         flat(true).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
                 carMarker.setAnchor(0.5f, 0.5f);
@@ -487,7 +506,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                                         .zoom(15.5f)
                                         .build()));
 
-                isFirstPosition = false;
+                this.isFirstPosition = false;
 
             } else {
                 endPosition = new LatLng(startLatitude, startLongitude);
@@ -501,9 +520,13 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 } else {
 
-                    Log.e(TAG, "SAMME");
+                    Log.e(TAG, "SAME");
                 }
             }
+        }
+
+        public void resetFirstPosition() {
+            this.isFirstPosition = true;
         }
     }
 }
