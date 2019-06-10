@@ -23,6 +23,7 @@ public class Client {
     public static final String SERVER_IP = "10.91.1.33";
     public static final int SERVER_PORT = 50000;
     private OnMessageReceived mMessageListener = null;
+    private CarMapActivity.ConnectTask mAsyncTask;
     // message to send to the server
 
     private boolean mRun = false;
@@ -34,10 +35,11 @@ public class Client {
 
     private Double [] doubles = new Double[10];
 
-    public Client(OnMessageReceived listener) {
+    public Client(OnMessageReceived listener, CarMapActivity.ConnectTask asyncTask) {
         Arrays.fill(doubles, 0.0);
         mMessageListener = listener;
         sendPositionThread = new Thread(sendPositionInfoRunnable);
+        mAsyncTask = asyncTask;
     }
 
     Runnable sendPositionInfoRunnable = new Runnable() {
@@ -80,10 +82,15 @@ public class Client {
 
                 //in this while the client listens for the messages sent by the server
                 while (mRun) {
-
+                    if(mAsyncTask.isCancelled()) {
+                        mRun = false;
+                        sendPositionThread.interrupt();
+                    }
                     //mServerMessage = mBufferIn.readLine();
                     int i = inputStream.read(buff, 0, 80);
                     Log.i(TAG, String.valueOf(i));
+
+
                     if(i > 0) {
                         byte[] valueBuff = Arrays.copyOfRange(buff, 0, 8);
                         byte[] valueBuff1 = Arrays.copyOfRange(buff, 8, 16);
@@ -106,7 +113,7 @@ public class Client {
                         doubles[7] = toDouble(valueBuff7);
                         doubles[8] = toDouble(valueBuff8);
                         doubles[9] = toDouble(valueBuff9);
-
+                        //mAsyncTask.setIndicatorConnectionOk();
                     }
                 }
             } catch (Exception e) {
@@ -114,11 +121,13 @@ public class Client {
             } finally {
                 //the socket must be closed. It is not possible to reconnect to this socket
                 // after it is closed, which means a new socket instance has to be created.
+                //mAsyncTask.setIndicatorConnectionFailed();
                 socket.close();
             }
 
         } catch (Exception e) {
             Log.e("TCP", "C: Error", e);
+            //mAsyncTask.setIndicatorConnectionFailed();
         }
 
     }

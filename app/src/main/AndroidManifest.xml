@@ -56,7 +56,8 @@
         <activity
             android:name=".InfoActivity"
             android:parentActivityName=".WorkActivity" />
-        <activity android:name=".CarMapActivity" />
+        <activity android:name=".CarMapActivity"
+                  android:launchMode="singleTask"/>
 
     </application>
 

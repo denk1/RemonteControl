@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -75,6 +76,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     private LatLng endPosition;
     private float v;
     Button button2;
+    Button button1;
     List<LatLng> polyLineList;
     private double lat, lng;
     // banani
@@ -101,9 +103,11 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        connectTask = new ConnectTask();
+
 
         button2 = (Button) findViewById(R.id.button2);
+        button1 = (Button) findViewById(R.id.button1);
+        connectTask = new ConnectTask();
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,12 +115,49 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 //               staticPolyLine();
 //                dynamicPolyLine();
 //                startGettingOnlineDataFromCar();
+
                 connectTask.execute("");
 
             }
         });
 
         handler = new Handler();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapFragment.onResume();
+        isFirstPosition = true;
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopRepeatingTask();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        boolean cancel = connectTask.cancel(false);
+        if(connectTask.isCancelled()) {
+            Log.i(TAG, "Task is canceled:" + cancel);
+        }
+        super.onDestroy();
+
     }
 
     void staticPolyLine() {
@@ -217,23 +258,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         if (staticCarRunnable != null) {
             handler.removeCallbacks(staticCarRunnable);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopRepeatingTask();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapFragment.onResume();
-        //isFirstPosition = true;
-        if(connectTask!=null)
-            connectTask.resetFirstPosition();
-
-
     }
 
     @Override
@@ -458,7 +482,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
     public class ConnectTask extends AsyncTask<String, Double[], Client> {
-        private boolean isFirstPosition = true;
 
         @Override
         protected Client doInBackground(String... message) {
@@ -471,7 +494,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                     //this method calls the onProgressUpdate
                     publishProgress(message);
                 }
-            });
+            }, this);
             mClient.run();
 
             return null;
@@ -487,14 +510,14 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
             Log.i(TAG, startLatitude + "--" + startLongitude);
 
 
-            if (this.isFirstPosition) {
+            if (isFirstPosition) {
                 int height = 100;
                 int width = 100;
 
                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car);
                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, b.getWidth() / 5, b.getHeight() / 5, false);
                 startPosition = new LatLng(startLatitude, startLongitude);
-                marker = googleMap.addMarker(new MarkerOptions().position(startPosition).title("Marker"));
+                //marker = googleMap.addMarker(new MarkerOptions().position(startPosition).title("Marker"));
                 carMarker = googleMap.addMarker(new MarkerOptions().position(startPosition).
                         flat(true).icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
                 carMarker.setAnchor(0.5f, 0.5f);
@@ -506,7 +529,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                                         .zoom(15.5f)
                                         .build()));
 
-                this.isFirstPosition = false;
+                isFirstPosition = false;
 
             } else {
                 endPosition = new LatLng(startLatitude, startLongitude);
@@ -525,8 +548,31 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         }
 
-        public void resetFirstPosition() {
-            this.isFirstPosition = true;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
+
+        @Override
+        protected void onPostExecute(Client client) {
+            super.onPostExecute(client);
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO Auto-generated method stub
+            super.onCancelled();
+            this.cancel(true);
+        }
+
+        void setIndicatorConnectionFailed() {
+           button1.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
+
+        void setIndicatorConnectionOk() {
+            button1.setBackgroundColor(Color.parseColor("#00ff00"));
+        }
+
+
     }
 }
