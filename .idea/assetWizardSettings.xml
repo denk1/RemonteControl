@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_language_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_navigation_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -66,8 +66,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="icon_global_map" />
-                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="outputName" value="icon_navigator" />
                                     </map>
                                   </option>
                                 </PersistentState>

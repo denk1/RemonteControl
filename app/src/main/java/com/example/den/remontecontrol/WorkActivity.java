@@ -18,7 +18,7 @@ public class WorkActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflate menu
-        getMenuInflater().inflate(R.menu.menu, menu);
+        //getMenuInflater().inflate(R.menu.menu, menu);
         getMenuInflater().inflate(R.menu.menu_work, menu);
         return true;
     }

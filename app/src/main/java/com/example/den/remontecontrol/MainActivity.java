@@ -86,14 +86,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show();
         }
         if(id == R.id.title2) {
-            Toast.makeText(this, "Выход", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "О программе", Toast.LENGTH_SHORT).show();
 
         }
         if(id == R.id.title3) {
-            Toast.makeText(this, "Управление", Toast.LENGTH_SHORT).show();
-        }
-        if(id == R.id.title4) {
-            Toast.makeText(this, "Информация", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Выход", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -109,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void validate(int ind) {
-        if(ind == 1) {
+        if(ind == 0 || ind == 1 || ind == 2) {
             Intent intent = new Intent(MainActivity.this, WorkActivity.class);
             startActivity(intent);
         } else {

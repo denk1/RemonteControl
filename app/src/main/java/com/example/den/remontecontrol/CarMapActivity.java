@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -48,6 +50,7 @@ import java.util.Map;
 
 import static com.google.android.gms.maps.model.JointType.ROUND;
 import static com.example.den.remontecontrol.MapUtils.getBearing;
+import static java.lang.Math.round;
 
 
 /**
@@ -77,6 +80,9 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     private float v;
     Button button2;
     Button button1;
+    Button buttonVelocity;
+    ImageView imageViewButton;
+    ImageButton buttonTarget;
     List<LatLng> polyLineList;
     private double lat, lng;
     // banani
@@ -87,7 +93,8 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     // Give your Server URL here >> where you get car location update
     public static final String URL_DRIVER_LOCATION_ON_RIDE = "http://192.168.4.1:8080";
 
-    private boolean isFirstPosition;
+    private boolean isFirstPosition = true;
+    private boolean flagTarget = true;
     private double startLatitude;
     private double startLongitude;
     private Client mClient;
@@ -97,16 +104,19 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_map);
+
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
         button2 = (Button) findViewById(R.id.button2);
         button1 = (Button) findViewById(R.id.button1);
+        buttonVelocity = (Button) findViewById(R.id.button3);
+        buttonTarget = (ImageButton) findViewById(R.id.buttonTarget) ;
         connectTask = new ConnectTask();
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +128,14 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 connectTask.execute("");
 
+            }
+        });
+
+        buttonTarget.setBackgroundResource(R.drawable.icon_navigator);
+        buttonTarget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flagTarget = !flagTarget;
             }
         });
 
@@ -133,9 +151,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onResume() {
         super.onResume();
         mapFragment.onResume();
-        isFirstPosition = true;
-
-
     }
 
     @Override
@@ -146,6 +161,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     protected void onStop() {
+
         super.onStop();
     }
 
@@ -229,7 +245,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                             .newCameraPosition
                                     (new CameraPosition.Builder()
                                             .target(newPos)
-                                            .zoom(15.5f)
+                                            .zoom(18.5f)
                                             .build()));
 
 
@@ -418,11 +434,12 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                 carMarker.setRotation(getBearing(start, end));
 
                 // todo : Shihab > i can delay here
-                googleMap.moveCamera(CameraUpdateFactory
+                if(flagTarget)
+                    googleMap.moveCamera(CameraUpdateFactory
                         .newCameraPosition
                                 (new CameraPosition.Builder()
                                         .target(newPos)
-                                        .zoom(15.5f)
+                                        .zoom(17.5f)
                                         .build()));
 
                 startPosition = carMarker.getPosition();
@@ -508,8 +525,9 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
             Log.i(TAG, startLatitude + "--" + startLongitude);
-
-
+            isConnectedIndicator(mClient.isConnected());
+            String strVelocity = String.valueOf(round(values[0][7]));
+            buttonVelocity.setText(String.valueOf(strVelocity));
             if (isFirstPosition) {
                 int height = 100;
                 int width = 100;
@@ -526,14 +544,14 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                         .newCameraPosition
                                 (new CameraPosition.Builder()
                                         .target(startPosition)
-                                        .zoom(15.5f)
+                                        .zoom(17.5f)
                                         .build()));
 
                 isFirstPosition = false;
 
             } else {
-                endPosition = new LatLng(startLatitude, startLongitude);
 
+                endPosition = new LatLng(startLatitude, startLongitude);
                 Log.d(TAG, startPosition.latitude + "--" + endPosition.latitude + "--Check --" + startPosition.longitude + "--" + endPosition.longitude);
 
                 if ((startPosition.latitude != endPosition.latitude) || (startPosition.longitude != endPosition.longitude)) {
@@ -571,6 +589,15 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
 
         void setIndicatorConnectionOk() {
             button1.setBackgroundColor(Color.parseColor("#00ff00"));
+        }
+
+        private void isConnectedIndicator(boolean connectionState) {
+            if(connectionState) {
+                setIndicatorConnectionOk();
+            }
+            else {
+                setIndicatorConnectionFailed();
+            }
         }
 
 
