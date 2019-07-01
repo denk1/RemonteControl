@@ -6,14 +6,12 @@
         android:title="@string/menu_item1"
         android:id="@+id/title1"
         app:showAsAction="never" />
-
     <item
-        android:title="О программе"
+        android:title="@string/menu_item2"
         android:id="@+id/title2"
         app:showAsAction="never" />
 
-    <item
-        android:title="Выход"
-        android:id="@+id/title3"
-        app:showAsAction="never" />
+
+
+
 </menu>

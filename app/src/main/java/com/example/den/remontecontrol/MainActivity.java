@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 //    menu item click handle
         if(id == R.id.title1) {
-            Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show();
+            startSettingsActivity();
         }
         if(id == R.id.title2) {
             Toast.makeText(this, "О программе", Toast.LENGTH_SHORT).show();
@@ -112,5 +112,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             txResult.setText("Отсутствует сетевое соединение с БТС");
         }
+    }
+
+    private void startSettingsActivity() {
+        Intent intent = new Intent(this, SettinsActivity.class);
+        startActivity(intent);
+
     }
 }

@@ -55,12 +55,12 @@ import static java.lang.Math.round;
 
 /**
  * A demonstration about car movement on google map
-       by @Shihab Uddin
+ by @Shihab Uddin
 
  TO RUN -> GIVE YOUR GOOGLE API KEY to >  google_maps_api.xml file
-        -> GIVE YOUR SERVER URL TO FETCH LOCATION UPDATE
+ -> GIVE YOUR SERVER URL TO FETCH LOCATION UPDATE
 
-*/
+ */
 
 public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final long DELAY = 4500;
@@ -436,11 +436,11 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                 // todo : Shihab > i can delay here
                 if(flagTarget)
                     googleMap.moveCamera(CameraUpdateFactory
-                        .newCameraPosition
-                                (new CameraPosition.Builder()
-                                        .target(newPos)
-                                        .zoom(17.5f)
-                                        .build()));
+                            .newCameraPosition
+                                    (new CameraPosition.Builder()
+                                            .target(newPos)
+                                            .zoom(17.5f)
+                                            .build()));
 
                 startPosition = carMarker.getPosition();
 
@@ -584,7 +584,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         }
 
         void setIndicatorConnectionFailed() {
-           button1.setBackgroundColor(Color.parseColor("#ff0000"));
+            button1.setBackgroundColor(Color.parseColor("#ff0000"));
         }
 
         void setIndicatorConnectionOk() {
