@@ -1,6 +1,7 @@
 package com.example.den.remontecontrol;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static  TextView textViewVelocity;
     private static ConnectionControl connectionControl = new ConnectionControl();
     private static CommandControl commandControl = new CommandControl(connectionControl);
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         textViewVelocity = findViewById(R.id.velocity_value);
+        sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override

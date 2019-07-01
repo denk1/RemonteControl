@@ -1,5 +1,6 @@
 package com.example.den.remontecontrol;
 
+import android.content.SharedPreferences;
 import android.location.OnNmeaMessageListener;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -15,13 +16,17 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 public class Client {
     public static final String TAG = Client.class.getSimpleName();
-    public static final String SERVER_IP = "192.168.43.249";
-    public static final int SERVER_PORT = 8080;
-    //public static final String SERVER_IP = "10.91.1.33";
-    //public static final int SERVER_PORT = 50000;
+    //public static final String SERVER_IP = "192.168.43.249";
+    //public static final int SERVER_PORT = 8080;
+    private  String SERVER_IP = "10.91.1.33";
+    private  int SERVER_PORT = 50000;
     private OnMessageReceived mMessageListener = null;
     private CarMapActivity.ConnectTask mAsyncTask;
     // message to send to the server
@@ -29,18 +34,23 @@ public class Client {
     private boolean mRun = false;
     private InputStream inputStream;
     private Handler handler;
+    private SharedPreferences sharedPreferences;
 
     Thread sendPositionThread;
 
 
     private Double [] doubles = new Double[10];
 
-    public Client(OnMessageReceived listener, CarMapActivity.ConnectTask asyncTask) {
+    public Client(OnMessageReceived listener, CarMapActivity.ConnectTask asyncTask, String ip, int port) {
+        SERVER_IP = ip;
+        SERVER_PORT = port;
         Arrays.fill(doubles, 0.0);
         mMessageListener = listener;
         sendPositionThread = new Thread(sendPositionInfoRunnable);
         mAsyncTask = asyncTask;
-        //here you must put your computer's IP address.
+
+
+        //sharedPreferences = getPreferenceManager().getSharedPreferences();
 
     }
 

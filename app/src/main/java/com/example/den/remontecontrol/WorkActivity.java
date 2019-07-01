@@ -1,6 +1,7 @@
 package com.example.den.remontecontrol;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,10 +10,19 @@ import android.widget.Toast;
 
 public class WorkActivity extends AppCompatActivity {
     Intent intentMapsActivity = null;
+    private SharedPreferences sharedPreferences;
+    public static String IP = null;
+    public static int PORT = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work);
+        sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        String ip = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_TEXT, "NULL");
+        if(ip != null)
+            IP = ip;
+        String port = sharedPreferences.getString(SettinsActivity.PORT_TEXT, "NULL");
+        PORT = Integer.valueOf(port);
     }
 
     @Override

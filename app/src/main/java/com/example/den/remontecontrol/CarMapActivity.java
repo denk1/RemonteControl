@@ -511,7 +511,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                     //this method calls the onProgressUpdate
                     publishProgress(message);
                 }
-            }, this);
+            }, this, WorkActivity.IP, WorkActivity.PORT);
             mClient.run();
 
             return null;
