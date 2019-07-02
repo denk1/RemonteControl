@@ -146,6 +146,11 @@ public class WorkActivity extends AppCompatActivity {
                         Boolean[] booleanStates = {false};
                         publishProgress(booleanStates);
                     }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+
+                    }
                 }
             }
         };
