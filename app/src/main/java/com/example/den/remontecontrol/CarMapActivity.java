@@ -1,6 +1,7 @@
 package com.example.den.remontecontrol;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -117,7 +118,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         button1 = (Button) findViewById(R.id.button1);
         buttonVelocity = (Button) findViewById(R.id.button3);
         buttonTarget = (ImageButton) findViewById(R.id.buttonTarget) ;
-        connectTask = new ConnectTask();
+        connectTask = new ConnectTask(this);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -493,13 +494,14 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
         polylineOptions.jointType(ROUND);
         polylineOptions.addAll(polyLineList);
         greyPolyLine = googleMap.addPolyline(polylineOptions);
-
-
     }
 
 
     public class ConnectTask extends AsyncTask<String, Double[], Client> {
-
+        private Context context;
+        public ConnectTask(Context context) {
+            this.context = context;
+        }
         @Override
         protected Client doInBackground(String... message) {
 
@@ -511,7 +513,7 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
                     //this method calls the onProgressUpdate
                     publishProgress(message);
                 }
-            }, this, WorkActivity.IP, WorkActivity.PORT);
+            }, this, WorkActivity.IP, WorkActivity.PORT, context);
             mClient.run();
 
             return null;
@@ -529,8 +531,6 @@ public class CarMapActivity extends AppCompatActivity implements OnMapReadyCallb
             String strVelocity = String.valueOf(round(values[0][7]));
             buttonVelocity.setText(String.valueOf(strVelocity));
             if (isFirstPosition) {
-                int height = 100;
-                int width = 100;
 
                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car);
                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, b.getWidth() / 5, b.getHeight() / 5, false);

@@ -1,5 +1,6 @@
 package com.example.den.remontecontrol;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.OnNmeaMessageListener;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 public class Client {
     public static final String TAG = Client.class.getSimpleName();
@@ -35,20 +37,21 @@ public class Client {
     private InputStream inputStream;
     private Handler handler;
     private SharedPreferences sharedPreferences;
+    private Context context;
 
     Thread sendPositionThread;
 
 
     private Double [] doubles = new Double[10];
 
-    public Client(OnMessageReceived listener, CarMapActivity.ConnectTask asyncTask, String ip, int port) {
+    public Client(OnMessageReceived listener, CarMapActivity.ConnectTask asyncTask, String ip, int port, Context context) {
         SERVER_IP = ip;
         SERVER_PORT = port;
         Arrays.fill(doubles, 0.0);
         mMessageListener = listener;
         sendPositionThread = new Thread(sendPositionInfoRunnable);
         mAsyncTask = asyncTask;
-
+        this.context = context;
 
         //sharedPreferences = getPreferenceManager().getSharedPreferences();
 
@@ -72,7 +75,7 @@ public class Client {
     };
 
     public void run() {
-        while (true) {
+        while (!mAsyncTask.isCancelled()) {
             mRun = true;
 
             try {
@@ -141,6 +144,7 @@ public class Client {
                 } catch (Exception e) {
                     Log.e("TCP", "S: Error", e);
                     mRun = false;
+                    Toast.makeText(context, "Соединение сброшено", Toast.LENGTH_SHORT).show();
                 } finally {
                     //the socket must be closed. It is not possible to reconnect to this socket
                     // after it is closed, which means a new socket instance has to be created.
@@ -156,6 +160,7 @@ public class Client {
             }
             try {
                 Thread.sleep(2000);
+                Toast.makeText(context, "Попытка нового соединения", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
 
             }
