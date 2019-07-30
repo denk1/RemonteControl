@@ -1,6 +1,9 @@
 package com.example.den.remontecontrol;
 
 import android.graphics.PointF;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -69,4 +72,31 @@ public class Vehicle {
         return currentYaw;
     }
 
+    public static class FrameManager {
+        private Handler handler = null;
+        private static FrameManager frameManager = null;
+        public final static int CURRENT_FRAME_CAMERA1 = 1;
+        public static FrameManager getInstance() {
+            if(frameManager==null) {
+                frameManager = new FrameManager();
+            }
+            return frameManager;
+        }
+
+        private FrameManager() {
+            handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message inputMessage) {
+                    Object objParameter = inputMessage.obj;
+                    switch (inputMessage.what) {
+                        case CURRENT_FRAME_CAMERA1:
+
+                        default:
+                            super.handleMessage(inputMessage);
+                    }
+                }
+            };
+        }
+
+    }
 }

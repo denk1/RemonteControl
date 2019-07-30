@@ -30,6 +30,7 @@
     <string name="subtab_info_pressure_tempture_title">Температура, давление</string>
     <string name="subtab_info_navigation_title">Навигация</string>
     <string name="title_activity_google_maps">Map</string>
+    <string name="menu_item_monitoring">Мониторинг камер</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
     <!-- TODO: Remove or change this placeholder text -->

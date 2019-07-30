@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CameraMonitoringActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_above="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorAlarm"/>
+
+    <VideoView android:id="@+id/videoView"
+        android:layout_above="@+id/btn_play_pause"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
+
+    <ImageButton
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_play_pause"
+        android:src="@drawable/ic_play"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+    </RelativeLayout>
