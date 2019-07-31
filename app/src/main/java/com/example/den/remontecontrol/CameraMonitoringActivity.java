@@ -20,6 +20,7 @@ public class CameraMonitoringActivity extends AppCompatActivity {
     ProgressDialog mDialog;
     VideoView videoView;
     ImageButton btnPlayPause;
+    ClientCamera clientCamera = null;
     static HashMap<String, ImageView> screenItems = new HashMap<String, ImageView>();
 
     //String videoURL = "http://10.91.1.33:8000/android_tutorial.mp4";
@@ -32,6 +33,7 @@ public class CameraMonitoringActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_monitoring);
         FrameManager.getInstance().setCameraFrame("camera1", new CameraFrame((ImageView)findViewById(R.id.imageView)));
+        clientCamera = ClientCamera.getInstance();
 
         videoView = (VideoView)findViewById(R.id.videoView);
         btnPlayPause = (ImageButton)findViewById(R.id.btn_play_pause);

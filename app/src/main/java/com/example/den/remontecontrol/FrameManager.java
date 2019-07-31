@@ -1,5 +1,6 @@
 package com.example.den.remontecontrol;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -32,7 +33,7 @@ public class FrameManager {
                 Object objParameter = inputMessage.obj;
                 switch (inputMessage.what) {
                     case CURRENT_FRAME_VALUE:
-                        drawFrame("camera1");
+                        drawFrame("camera1", objParameter);
                     default:
                         super.handleMessage(inputMessage);
                 }
@@ -44,8 +45,9 @@ public class FrameManager {
         screensMap.put(cameraName, cameraFrame);
     }
 
-    private void drawFrame(String cameName) {
-        CameraFrame cameraFrame = screensMap.get("camera1");
-        cameraFrame.outputFrame();
+    private void drawFrame(String cameraName, Object object) {
+        CameraFrame cameraFrame = screensMap.get(cameraName);
+        Bitmap bitmapFrame = (Bitmap) object;
+        cameraFrame.outputFrame(bitmapFrame);
     }
 }
