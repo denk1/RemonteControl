@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference android:layout="@layout/prev_title_map" />
+
     <android.support.v7.preference.EditTextPreference
         android:defaultValue=""
         android:key="ip_address_text"
@@ -9,5 +11,7 @@
         android:defaultValue=""
         android:key="port_text"
         android:title="Port" />
+
+    <Preference android:layout="@layout/prev_title_video" />
 
 </PreferenceScreen>

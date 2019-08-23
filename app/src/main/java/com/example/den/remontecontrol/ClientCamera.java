@@ -1,8 +1,11 @@
 package com.example.den.remontecontrol;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 
+import java.io.ByteArrayInputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class ClientCamera {
@@ -21,9 +24,12 @@ public class ClientCamera {
         @Override
         public void run() {
             while (true) {
-                int[] arr_image = new int[490000];
-                Arrays.fill(arr_image, 0);
-                Bitmap bitmap = Bitmap.createBitmap(arr_image, 700, 700, Bitmap.Config.ALPHA_8);
+                final int w = 700;
+                final int h = 700;
+                ByteBuffer byteBuffer = ByteBuffer.allocate(4 * w * h);
+                byte [] byteArray = byteBuffer.array();
+                Arrays.fill(byteArray, 0, byteArray.length, (byte) 0x00);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length );
                 double pause = 1000.0 / 30.0;
                 try {
                     FrameManager.getInstance().handleParam(bitmap, FrameManager.CURRENT_FRAME_VALUE);

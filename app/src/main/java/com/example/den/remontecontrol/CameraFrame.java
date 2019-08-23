@@ -15,14 +15,14 @@ public class CameraFrame {
 
         this.imageView = imageView;
         imageView.setImageResource(R.drawable.car);
-        imageView.setImageMatrix(matrix);
+
     }
 
     public void outputFrame(Bitmap bitmap) {
 
         matrix.setRotate(90.0f);
+        imageView.setImageMatrix(matrix);
 
-
-        //this.imageView.setImageBitmap(bitmap);
+        this.imageView.setImageBitmap(bitmap);
     }
 }
