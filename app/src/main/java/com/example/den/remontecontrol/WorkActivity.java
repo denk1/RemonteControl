@@ -19,6 +19,8 @@ import android.widget.TextView;
 public class WorkActivity extends AppCompatActivity {
     public static String IP = null;
     public static int PORT = 0;
+    public static String IP_VIDEO = null;
+    public static int PORT_VIDEO = 0;
     private final String TAG = "WorkActivity";
     Intent intentMapsActivity = null;
     private SharedPreferences sharedPreferences;
@@ -31,12 +33,15 @@ public class WorkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_work);
         initViews();
         sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        String ip = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_TEXT, "NULL");
-        if(ip != null && ip != "" && ip != "NULL")
-            IP = ip;
-        String port = sharedPreferences.getString(SettinsActivity.PORT_TEXT, "NULL");
-        if(port != null && port != "" && ip != "NULL")
-            PORT = Integer.valueOf(port);
+
+        IP = getIP(SettinsActivity.IP_ADDRESS_TEXT);
+        if(IP != "NULL")
+            PORT = getPORT(SettinsActivity.PORT_TEXT);
+
+        IP_VIDEO = getIP(SettinsActivity.IP_ADDRESS_VIDEO_TEXT);
+        if(IP_VIDEO != "NULL")
+            PORT_VIDEO = getPORT(SettinsActivity.PORT_VIDEO_TEXT);
+
         if(!isConnectedWiFi()) {
             textViewConnectivly.setBackgroundColor(getColor(R.color.colorAlarm));
             textViewConnectivly.setText("соединение с БТС отсутствует");
@@ -128,6 +133,30 @@ public class WorkActivity extends AppCompatActivity {
             //Toast.makeText(this, "нет соединения с сетью", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    // ///////////////////////////////
+    // getting IP address
+    // ///////////////////////////////
+
+    private String getIP(String ip_addr) {
+        String IP = "NULL";
+        String ip = sharedPreferences.getString(ip_addr, "NULL");
+        if(ip != null && ip != "" && ip != "NULL")
+            IP = ip;
+        return IP;
+    }
+
+    // ///////////////////////////////////
+    // getting port
+    // ///////////////////////////////////
+
+    private int getPORT(String portValue) {
+        int PORT = 0;
+        String port = sharedPreferences.getString(portValue, "NULL");
+        if(port != null && port != "")
+            PORT = Integer.valueOf(port);
+        return PORT;
     }
 
     private void initViews() {

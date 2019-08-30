@@ -18,6 +18,8 @@ import android.widget.TextView;
 public class SettingsFragment extends PreferenceFragmentCompat {
     private EditTextPreference editTextPreferenceIp = null;
     private EditTextPreference editTextPreferencePort = null;
+    private EditTextPreference editTextPreferenceIpVideo = null;
+    private EditTextPreference getEditTextPreferencePortVideo = null;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private String oldText;
     SharedPreferences sharedPreferences;
@@ -42,12 +44,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         createListener();
         editTextPreferenceIp = (EditTextPreference)findPreference(SettinsActivity.IP_ADDRESS_TEXT);
         editTextPreferencePort = (EditTextPreference)findPreference(SettinsActivity.PORT_TEXT);
+        editTextPreferenceIpVideo = (EditTextPreference)findPreference(SettinsActivity.IP_ADDRESS_VIDEO_TEXT);
+        getEditTextPreferencePortVideo = (EditTextPreference)findPreference(SettinsActivity.PORT_VIDEO_TEXT);
         oldText = editTextPreferenceIp.getText();
         sharedPreferences = getPreferenceManager().getSharedPreferences();
         String valueIp = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_TEXT, "NULL");
         String valuePort = sharedPreferences.getString(SettinsActivity.PORT_TEXT, "NULL");
+        String valueIpVideo = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_VIDEO_TEXT, "NULL");
+        String valuePortVideo = sharedPreferences.getString(SettinsActivity.PORT_VIDEO_TEXT, "NULL");
         editTextPreferenceIp.setSummary(valueIp);
         editTextPreferencePort.setSummary(valuePort);
+        editTextPreferenceIpVideo.setSummary(valueIpVideo);
+        getEditTextPreferencePortVideo.setSummary(valuePortVideo);
     }
 
     private void createListener() {
@@ -61,6 +69,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
                 else if(key.equals(SettinsActivity.PORT_TEXT)){
                     editTextPreferencePort.setSummary(value);
+                }
+                else if(key.equals(SettinsActivity.IP_ADDRESS_VIDEO_TEXT)) {
+                    editTextPreferenceIpVideo.setSummary(value);
+                }
+                else if(key.equals(SettinsActivity.PORT_VIDEO_TEXT)) {
+                    getEditTextPreferencePortVideo.setSummary(value);
                 }
 
             }

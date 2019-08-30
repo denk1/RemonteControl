@@ -14,4 +14,13 @@
 
     <Preference android:layout="@layout/prev_title_video" />
 
+    <android.support.v7.preference.EditTextPreference
+        android:defaultValue=""
+        android:key="ip_addr_video_text"
+        android:title="ip-address" />
+    <android.support.v7.preference.EditTextPreference
+        android:defaultValue=""
+        android:key="port_video_text"
+        android:title="Port" />
+
 </PreferenceScreen>

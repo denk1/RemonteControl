@@ -8,6 +8,8 @@ import android.support.v7.preference.EditTextPreference;
 public class SettinsActivity extends AppCompatActivity {
     public static final String IP_ADDRESS_TEXT = "ip_address_text";
     public static final String PORT_TEXT = "port_text";
+    public static final String IP_ADDRESS_VIDEO_TEXT = "ip_addr_video_text";
+    public static final String PORT_VIDEO_TEXT = "port_video_text";
 
 
     @Override

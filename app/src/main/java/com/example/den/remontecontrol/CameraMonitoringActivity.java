@@ -2,8 +2,12 @@ package com.example.den.remontecontrol;
 
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +25,7 @@ public class CameraMonitoringActivity extends AppCompatActivity {
     VideoView videoView;
     ImageButton btnPlayPause;
     ClientCamera clientCamera = null;
+    ImageView imageView = null;
     static HashMap<String, ImageView> screenItems = new HashMap<String, ImageView>();
 
     //String videoURL = "http://10.91.1.33:8000/android_tutorial.mp4";
@@ -33,8 +38,8 @@ public class CameraMonitoringActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_monitoring);
         FrameManager.getInstance().setCameraFrame("camera1", new CameraFrame((ImageView)findViewById(R.id.imageView)));
-        clientCamera = ClientCamera.getInstance();
 
+        imageView = (ImageView)findViewById(R.id.imageView);
         videoView = (VideoView)findViewById(R.id.videoView);
         btnPlayPause = (ImageButton)findViewById(R.id.btn_play_pause);
         btnPlayPause.setOnClickListener(new View.OnClickListener() {
@@ -83,5 +88,44 @@ public class CameraMonitoringActivity extends AppCompatActivity {
             return screenItems.get(nameCamera);
         else
             return null;
+    }
+
+    public class FrameTask  extends AsyncTask<String, byte[], Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... message) {
+            clientCamera = new ClientCamera(new ClientCamera.OnMessageReceived() {
+                @Override
+                public void messageReceived(byte[] message) {
+                    publishProgress(message);
+                }
+            });
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(byte[]... values) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(values[0], 0, values.length);
+
+            imageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, imageView.getWidth(),
+                    imageView.getHeight(), false));
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean value) {
+            super.onPostExecute(value);
+        }
+
+        @Override
+        protected void onCancelled() {
+            // TODO Auto-generated method stub
+            super.onCancelled();
+            this.cancel(true);
+        }
     }
 }
