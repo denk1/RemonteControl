@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +82,7 @@ public class CameraMonitoringActivity extends AppCompatActivity {
                 });
             }
         });
+        new FrameTask().execute("");
 
     }
 
@@ -90,25 +93,29 @@ public class CameraMonitoringActivity extends AppCompatActivity {
             return null;
     }
 
-    public class FrameTask  extends AsyncTask<String, byte[], Boolean> {
+
+    public class FrameTask  extends AsyncTask<String, Byte[], Boolean> {
 
         @Override
         protected Boolean doInBackground(String... message) {
             clientCamera = new ClientCamera(new ClientCamera.OnMessageReceived() {
                 @Override
-                public void messageReceived(byte[] message) {
+                public void messageReceived(Byte[] message) {
                     publishProgress(message);
                 }
             });
+            clientCamera.sendQueryImage();
             return true;
         }
 
         @Override
-        protected void onProgressUpdate(byte[]... values) {
-            Bitmap bmp = BitmapFactory.decodeByteArray(values[0], 0, values.length);
+        protected void onProgressUpdate(Byte[]... values) {
+            byte[] testBytes = ArrayUtils.toPrimitive(values[0]);
+            Bitmap bmp = BitmapFactory.decodeByteArray(testBytes, 0, values.length);
 
             imageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, imageView.getWidth(),
                     imageView.getHeight(), false));
+            clientCamera.sendQueryImage();
         }
 
         @Override
