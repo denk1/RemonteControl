@@ -111,7 +111,9 @@ public class CameraMonitoringActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Byte[]... values) {
             byte[] testBytes = ArrayUtils.toPrimitive(values[0]);
-            Bitmap bmp = BitmapFactory.decodeByteArray(testBytes, 0, values.length);
+            BitmapFactory.Options opt = new BitmapFactory.Options();
+            opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bmp = BitmapFactory.decodeByteArray(testBytes, 0, testBytes.length);
 
             imageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, imageView.getWidth(),
                     imageView.getHeight(), false));

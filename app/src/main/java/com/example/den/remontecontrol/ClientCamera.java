@@ -34,7 +34,7 @@ public class ClientCamera {
     private final int MAX_READ_BYTES = 102400;
     private boolean mRun = true;
     private boolean isConnect = false;
-    private int total_read_byte = 0;
+    private int total_read_byte_image = 0;
     private int current_read_byte = 0;
     private byte[] bytes_read_image = null;
     private int sizeImage = 0;
@@ -70,41 +70,37 @@ public class ClientCamera {
                     if(current_read_byte == 0) {
                         current_read_byte = inputStream.read(buff, 0, MAX_READ_BYTES);
                     }
-                    total_read_byte += current_read_byte;
-                    final int w = 700;
-                    final int h = 700;
 
                     if(current_read_byte > 0) {
                         if(buff[0]==0x04 || isContinueRecieveImage) {
                             int offset = 0;
-                            if(buff[0] == 0x04) {
+                            if(buff[0] == 0x04 && total_read_byte_image == 0) {
                                 offset = 5;
                                 sizeImage = ByteBuffer.wrap(buff, 1, 5).getInt();
-                                total_read_byte -= 5;
                                 current_read_byte -= 5;
+
                             }
 
-                            if(sizeImage > total_read_byte ) {
-                                bytes_read_image = ByteBuffer.wrap(buff, offset, current_read_byte).array();
+                            if(sizeImage > (total_read_byte_image + current_read_byte)) {
+                                bytes_read_image =  Arrays.copyOfRange(buff, offset, current_read_byte);
                                 isContinueRecieveImage = true;
+                                total_read_byte_image += current_read_byte;
                                 current_read_byte = 0;
                             } else {
-                                bytes_read_image = ByteBuffer.wrap(buff, offset, current_read_byte - (total_read_byte - sizeImage)).array();
-                                current_read_byte = total_read_byte - sizeImage;
+                                bytes_read_image = Arrays.copyOfRange(buff, offset, sizeImage - total_read_byte_image);
+                                current_read_byte = total_read_byte_image + current_read_byte - sizeImage;
                                 isContinueRecieveImage = false;
                                 isRecieveImage = true;
-                                Arrays.fill(buff, (byte)0);
                                 byte[] buff_remain = Arrays.copyOfRange(buff, current_read_byte , buff.length);
                                 System.arraycopy(buff_remain, 0, buff, 0, buff_remain.length);
                             }
+                            listArrayImage.addAll( Arrays.asList(ArrayUtils.toObject(Arrays.copyOfRange(bytes_read_image, 0, bytes_read_image.length ))));
 
-                            listArrayImage.addAll( Arrays.asList(ArrayUtils.toObject(bytes_read_image)));
                              if(isRecieveImage) {
                                  recieveImageBytes();
                                  isRecieveImage = false;
-                                 total_read_byte = 0;
+                                 total_read_byte_image = 0;
                              }
-
                         }
                         else if (buff[0]==(byte)0x03 && buff[1]==(byte)0x7f && buff[2]==(byte)0x80) {
                             isConnect = true;
@@ -112,7 +108,6 @@ public class ClientCamera {
                             inputStream = mSocket.getInputStream();
                             outputStream = mSocket.getOutputStream();
                             current_read_byte -= 3;
-                            total_read_byte -= 3;
                             outputStream.write(answerByte);
                         }
                     }
@@ -121,10 +116,9 @@ public class ClientCamera {
                     }
                     if(isSendingImage) {
                         byte[] msgQueryImage = {0x03, 0x00, 0x00, 0x00};
-                        outputStream.write(msgQueryImage);
+                        //outputStream.write(msgQueryImage);
                         isSendingImage = false;
                     }
-
                     //ByteBuffer byteBuffer = ByteBuffer.allocate(4 * w * h);
                     //byte[] byteArray = byteBuffer.array();
                     //Arrays.fill(byteArray, 0, byteArray.length, (byte) 0x00);
@@ -153,7 +147,12 @@ public class ClientCamera {
     };
 
     public void sendQueryImage() {
-        isSendingImage = true;
+        byte[] msgQueryImage = {0x03, 0x00, 0x00, 0x00};
+        try {
+            outputStream.write(msgQueryImage);
+        }catch (Exception e) {
+
+        }
     }
 
     public interface OnMessageReceived {
@@ -161,8 +160,10 @@ public class ClientCamera {
     }
 
     private void recieveImageBytes() {
-        mMessageListener.messageReceived(listArrayImage.toArray(new Byte[listArrayImage.size()]));
-        total_read_byte = 0;
+        Byte [] sending_arr = listArrayImage.toArray(new Byte[listArrayImage.size()]);
+        mMessageListener.messageReceived(sending_arr);
+        listArrayImage.clear();
+        total_read_byte_image = 0;
     }
 
 }
