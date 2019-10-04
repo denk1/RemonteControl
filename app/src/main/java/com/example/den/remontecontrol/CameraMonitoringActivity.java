@@ -104,7 +104,7 @@ public class CameraMonitoringActivity extends AppCompatActivity {
                     publishProgress(message);
                 }
             });
-            clientCamera.sendQueryImage();
+            //clientCamera.sendQueryImage();
             return true;
         }
 
