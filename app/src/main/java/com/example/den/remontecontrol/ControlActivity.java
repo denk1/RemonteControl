@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
@@ -41,7 +42,7 @@ public class ControlActivity extends AppCompatActivity {
 
     private SeekBar seekBarTurn = null;
     private SeekBar seekBarAccel = null;
-
+    private final String TAG = "ControlActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,9 +138,10 @@ public class ControlActivity extends AppCompatActivity {
 
         //event
         tabHost.setOnTabChangedListener(new AnimationTabListener(this, tabHost));
-
         // joystick
-
+        if(savedInstanceState!=null) {
+            tabHost.setCurrentTab(savedInstanceState.getInt("current_tab"));
+        }
         mTextViewAngleLeft = (TextView) findViewById(R.id.textView_angle_left);
         mTextViewStrengthLeft = (TextView) findViewById(R.id.textView_strength_left);
 
@@ -270,6 +272,30 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "the method onPause() of the ControlActivity");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "the method onStop of the ControlActivity");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "the method onDestroy of the ControlActivity");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("current_tab", tabHost.getCurrentTab());
     }
 }
 

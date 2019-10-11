@@ -74,6 +74,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "the onPause() method of the MainActivity");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "the onStop() method of the MainActivity");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "the onDestroy() method of the MainActivity");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflate menu
         getMenuInflater().inflate(R.menu.menu, menu);
