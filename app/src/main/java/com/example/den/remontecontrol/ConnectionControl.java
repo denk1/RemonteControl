@@ -14,20 +14,24 @@ import android.os.Handler;
 
 import org.json.JSONObject;
 
-public class ConnectionControl {
+public class ConnectionControl implements Connection {
     private WebSocket ws = null;
     public Handler updateHandler;
 
     public ConnectionControl() {
+        initConnection();
+    }
 
+    @Override
+    public void initConnection() {
         final InfoManager infoManager = InfoManager.createInfoManager();
         Log.i("TAG", "constructor of ConnectionControl");
         // Create a WebSocket factory and set 5000 milliseconds as a timeout
         // value for socket connection.
         WebSocketFactory factory = new WebSocketFactory().setConnectionTimeout(5000);
+
         try {
             ws = factory.createSocket("ws://10.91.1.33:6789/");
-
             ws.addListener(new WebSocketAdapter() {
                 @Override
                 public void onTextMessage(WebSocket websocket, String message) throws Exception {
@@ -60,7 +64,12 @@ public class ConnectionControl {
         }
     }
 
+    @Override
     public boolean sendCommand(String strCmd) {
+        return sending(strCmd);
+    }
+
+    private boolean sending(String strCmd) {
         if (ws.isOpen()) {
             ws.sendText(strCmd);
             return true;

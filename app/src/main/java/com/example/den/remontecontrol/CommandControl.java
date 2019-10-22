@@ -1,9 +1,9 @@
 package com.example.den.remontecontrol;
 
 public class CommandControl {
-    private ConnectionControl connectionControl;
+    private Connection connectionControl;
 
-    public CommandControl(ConnectionControl cntCtr) {
+    public CommandControl(Connection cntCtr) {
         connectionControl = cntCtr;
     }
 
