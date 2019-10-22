@@ -146,7 +146,8 @@ public class ControlActivity extends AppCompatActivity {
         mTextViewStrengthLeft = (TextView) findViewById(R.id.textView_strength_left);
 
         JoystickView joystickLeft = (JoystickView) findViewById(R.id.joystickView_left);
-        final CommandControl commandControl = MainActivity.getCommandControl();
+        //getting the object of command
+        final CommandControl commandControl = WorkActivity.getCommandControl();
         joystickLeft.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {

@@ -23,4 +23,25 @@
         android:key="port_video_text"
         android:title="Port" />
 
+    <Preference android:layout="@layout/prev_title_control_conn_type" />
+
+    <android.support.v7.preference.DropDownPreference
+        android:defaultValue=""
+        android:key="types_conn"
+        android:title="type of the connection"
+        android:summary="test of the summary"
+        android:entries="@array/pref_entries_types_conn"
+        android:entryValues="@array/pref_entries_types_conn"/>
+
+    <Preference android:layout="@layout/prev_title_control" />
+
+    <android.support.v7.preference.EditTextPreference
+        android:defaultValue=""
+        android:key="ip_address_control"
+        android:title="ip-address" />
+    <android.support.v7.preference.EditTextPreference
+        android:defaultValue=""
+        android:key="port_control"
+        android:title="Port" />
+
 </PreferenceScreen>

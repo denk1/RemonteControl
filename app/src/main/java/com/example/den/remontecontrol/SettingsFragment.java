@@ -4,6 +4,7 @@ package com.example.den.remontecontrol;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.DropDownPreference;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
@@ -20,6 +21,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private EditTextPreference editTextPreferencePort = null;
     private EditTextPreference editTextPreferenceIpVideo = null;
     private EditTextPreference getEditTextPreferencePortVideo = null;
+    private DropDownPreference dropDownPreferenceTypeConn = null;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private String oldText;
     SharedPreferences sharedPreferences;
@@ -46,16 +48,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         editTextPreferencePort = (EditTextPreference)findPreference(SettinsActivity.PORT_TEXT);
         editTextPreferenceIpVideo = (EditTextPreference)findPreference(SettinsActivity.IP_ADDRESS_VIDEO_TEXT);
         getEditTextPreferencePortVideo = (EditTextPreference)findPreference(SettinsActivity.PORT_VIDEO_TEXT);
+        dropDownPreferenceTypeConn = (DropDownPreference)findPreference(SettinsActivity.TYPE_OF_CONNECTION);
         oldText = editTextPreferenceIp.getText();
         sharedPreferences = getPreferenceManager().getSharedPreferences();
         String valueIp = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_TEXT, "NULL");
         String valuePort = sharedPreferences.getString(SettinsActivity.PORT_TEXT, "NULL");
         String valueIpVideo = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_VIDEO_TEXT, "NULL");
         String valuePortVideo = sharedPreferences.getString(SettinsActivity.PORT_VIDEO_TEXT, "NULL");
+        String valueTypeOfConn = sharedPreferences.getString(SettinsActivity.TYPE_OF_CONNECTION, "NULL");
         editTextPreferenceIp.setSummary(valueIp);
         editTextPreferencePort.setSummary(valuePort);
         editTextPreferenceIpVideo.setSummary(valueIpVideo);
         getEditTextPreferencePortVideo.setSummary(valuePortVideo);
+        dropDownPreferenceTypeConn.setSummary(valueTypeOfConn);
     }
 
     private void createListener() {
@@ -76,7 +81,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 else if(key.equals(SettinsActivity.PORT_VIDEO_TEXT)) {
                     getEditTextPreferencePortVideo.setSummary(value);
                 }
-
+                else if(key.equals(SettinsActivity.TYPE_OF_CONNECTION)) {
+                    dropDownPreferenceTypeConn.setSummary(value);
+                }
             }
         };
         PreferenceManager.getDefaultSharedPreferences(getContext())

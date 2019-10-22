@@ -43,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spVehicle;
     Menu menu;
     Button btConnect;
-    WebSocket ws = null;
     public static  TextView textViewVelocity;
-    private static AbstractFactory<Connection> abstractFactory = new AbstractFactoryConnection();
-    private static Connection connectionControl = null;
-    private static CommandControl commandControl = null;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -69,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
         });
         textViewVelocity = findViewById(R.id.velocity_value);
         sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        connectionControl = new ConnectionControl();
-        connectionControl = abstractFactory.create("ConnectionControl");
-        commandControl = new CommandControl(connectionControl);
     }
 
     @Override
@@ -103,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-//    menu item click handle
+        //    menu item click handle
         if(id == R.id.title1) {
             startSettingsActivity();
         }
@@ -121,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
     public void onClickButtonConnect(View view) {
         Toast.makeText(this, "Кнопка подключения", Toast.LENGTH_SHORT).show();
     }
-
-    public static CommandControl getCommandControl() {
-        return commandControl;
-    }
-
 
     private void validate(int ind) {
         if(ind == 0 || ind == 1 || ind == 2) {

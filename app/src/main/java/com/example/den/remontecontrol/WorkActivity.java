@@ -26,6 +26,13 @@ public class WorkActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     TextView textViewConnectivly = null;
     MonitoringStateTask monitoringStateTask = new MonitoringStateTask();
+    private static AbstractFactory<Connection> abstractFactory = new AbstractFactoryConnection();
+    private static Connection connectionControl = null;
+    private static CommandControl commandControl = null;
+
+    private String TYPE_CONNECTION = null;
+    public static String IP_CONTROL = null;
+    public static int PORT_CONTROL = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +40,21 @@ public class WorkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_work);
         initViews();
         sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
-
-        IP = getIP(SettinsActivity.IP_ADDRESS_TEXT);
+        IP = getStrParam(SettinsActivity.IP_ADDRESS_TEXT);
         if(IP != "NULL")
             PORT = getPORT(SettinsActivity.PORT_TEXT);
 
-        IP_VIDEO = getIP(SettinsActivity.IP_ADDRESS_VIDEO_TEXT);
+        // connection of the getting video
+        IP_VIDEO = getStrParam(SettinsActivity.IP_ADDRESS_VIDEO_TEXT);
         if(IP_VIDEO != "NULL")
             PORT_VIDEO = getPORT(SettinsActivity.PORT_VIDEO_TEXT);
 
+        // connection of the control
+        TYPE_CONNECTION = getStrParam(SettinsActivity.TYPE_OF_CONNECTION);
+        IP_CONTROL = getStrParam(SettinsActivity.IP_ADDRESS_CONTROL);
+        if(IP_CONTROL != "NULL")
+            PORT_CONTROL = getPORT(SettinsActivity.PORT_CONTROL);
+        initConnection(TYPE_CONNECTION);
         if(!isConnectedWiFi()) {
             textViewConnectivly.setBackgroundColor(getColor(R.color.colorAlarm));
             textViewConnectivly.setText("соединение с БТС отсутствует");
@@ -139,7 +152,7 @@ public class WorkActivity extends AppCompatActivity {
     // getting IP address
     // ///////////////////////////////
 
-    private String getIP(String ip_addr) {
+    private String getStrParam(String ip_addr) {
         String IP = "NULL";
         String ip = sharedPreferences.getString(ip_addr, "NULL");
         if(ip != null && ip != "" && ip != "NULL")
@@ -157,6 +170,27 @@ public class WorkActivity extends AppCompatActivity {
         if(port != null && port != "")
             PORT = Integer.valueOf(port);
         return PORT;
+    }
+
+    // ////////////////////////////////////
+    // the initialization of the connection
+    // ////////////////////////////////////
+
+    private boolean initConnection(String type_conn) {
+
+        connectionControl = abstractFactory.create(type_conn);
+
+        if(connectionControl != null) {
+            commandControl = new CommandControl(connectionControl);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static CommandControl getCommandControl() {
+        return commandControl;
     }
 
     private void initViews() {

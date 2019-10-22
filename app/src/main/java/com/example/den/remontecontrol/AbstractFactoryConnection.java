@@ -4,7 +4,7 @@ public class AbstractFactoryConnection implements AbstractFactory<Connection> {
     @Override
     public Connection create(String connectionType) {
 
-        if("ConnectionControl".equalsIgnoreCase(connectionType)) {
+        if("web-socket".equalsIgnoreCase(connectionType)) {
             return new ConnectionControl();
         }
         else {
