@@ -22,6 +22,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private EditTextPreference editTextPreferenceIpVideo = null;
     private EditTextPreference getEditTextPreferencePortVideo = null;
     private DropDownPreference dropDownPreferenceTypeConn = null;
+    private EditTextPreference editTextPreferenceIpControl = null;
+    private EditTextPreference editTextPreferencePortControl = null;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private String oldText;
     SharedPreferences sharedPreferences;
@@ -49,6 +51,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         editTextPreferenceIpVideo = (EditTextPreference)findPreference(SettinsActivity.IP_ADDRESS_VIDEO_TEXT);
         getEditTextPreferencePortVideo = (EditTextPreference)findPreference(SettinsActivity.PORT_VIDEO_TEXT);
         dropDownPreferenceTypeConn = (DropDownPreference)findPreference(SettinsActivity.TYPE_OF_CONNECTION);
+        editTextPreferenceIpControl = (EditTextPreference)findPreference(SettinsActivity.IP_ADDRESS_CONTROL);
+        editTextPreferencePortControl = (EditTextPreference)findPreference(SettinsActivity.PORT_CONTROL);
+
         oldText = editTextPreferenceIp.getText();
         sharedPreferences = getPreferenceManager().getSharedPreferences();
         String valueIp = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_TEXT, "NULL");
@@ -56,11 +61,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String valueIpVideo = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_VIDEO_TEXT, "NULL");
         String valuePortVideo = sharedPreferences.getString(SettinsActivity.PORT_VIDEO_TEXT, "NULL");
         String valueTypeOfConn = sharedPreferences.getString(SettinsActivity.TYPE_OF_CONNECTION, "NULL");
+        String valueIpControl = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_CONTROL, "NULL");
+        String valuePortControl = sharedPreferences.getString(SettinsActivity.PORT_CONTROL, "NULL");
         editTextPreferenceIp.setSummary(valueIp);
         editTextPreferencePort.setSummary(valuePort);
         editTextPreferenceIpVideo.setSummary(valueIpVideo);
         getEditTextPreferencePortVideo.setSummary(valuePortVideo);
         dropDownPreferenceTypeConn.setSummary(valueTypeOfConn);
+        editTextPreferenceIpControl.setSummary(valueIpControl);
+        editTextPreferencePortControl.setSummary(valuePortControl);
     }
 
     private void createListener() {
@@ -83,6 +92,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
                 else if(key.equals(SettinsActivity.TYPE_OF_CONNECTION)) {
                     dropDownPreferenceTypeConn.setSummary(value);
+                }
+                else if(key.equals(SettinsActivity.IP_ADDRESS_CONTROL)) {
+                    editTextPreferenceIpControl.setSummary(value);
+                }
+                else if(key.equals(SettinsActivity.PORT_CONTROL)) {
+                    editTextPreferencePortControl.setSummary(value);
                 }
             }
         };

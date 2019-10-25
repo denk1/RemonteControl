@@ -7,6 +7,9 @@ public class AbstractFactoryConnection implements AbstractFactory<Connection> {
         if("web-socket".equalsIgnoreCase(connectionType)) {
             return new ConnectionControl();
         }
+        else if("tcp".equalsIgnoreCase(connectionType)) {
+            return new ConnectionTCP();
+        }
         else {
             return null;
         }

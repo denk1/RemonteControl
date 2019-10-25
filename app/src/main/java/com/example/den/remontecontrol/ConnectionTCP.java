@@ -23,18 +23,22 @@ public class ConnectionTCP implements Connection {
 
     public ConnectionTCP() {
         sendCommandThread = new Thread(sendCommandRunnable);
+        sendCommandThread.start();
     }
 
     @Override
     public void initConnection() {
         try {
+            //WorkActivity.IP_CONTROL = "192.168.88.199";
+            //WorkActivity.PORT_CONTROL = 8001;
             mSocket = new Socket(WorkActivity.IP_CONTROL, WorkActivity.PORT_CONTROL);
             mSocket.setKeepAlive(true);
             mSocket.setSoTimeout(90000);
             inputStream = mSocket.getInputStream();
             outputStream = mSocket.getOutputStream();
-            sendCommandThread.start();
-        } catch (IOException e) {
+            //byte[] bytes = {1};
+            //outputStream.write(bytes);
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
     }
@@ -82,6 +86,7 @@ public class ConnectionTCP implements Connection {
     private Runnable sendCommandRunnable = new Runnable() {
         @Override
         public void run() {
+            initConnection();
             while (mRun) {
                 try {
                     Thread.sleep(10);
@@ -105,7 +110,30 @@ public class ConnectionTCP implements Connection {
 
     byte[] toByteArray(int value) {
         byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putInt(value);
+        ByteBuffer.wrap(bytes).putDouble(value);
         return bytes;
+    }
+
+    @Override
+    public boolean isConnected() {
+        if(mSocket != null) {
+            return mSocket.isConnected();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void setActivated() {
+       if(sendCommandThread.isInterrupted()) {
+           sendCommandThread.start();
+       }
+    }
+
+    @Override
+    public void setDisactivated() {
+        if(sendCommandThread.isAlive()) {
+            sendCommandThread.interrupt();
+        }
     }
 }

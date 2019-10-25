@@ -28,7 +28,7 @@ public class CommandControl {
     }
 
     public boolean turnLeftDown(int angle) {
-        connectionControl.sendCommand("{\"action\":\"turn_left_down\", \"params\":{\"steering_angle\":" + angle + "}}");
+        connectionControl.sendCommand("{\"action\":\"turn_left_down\", \"params\":{\"steering_angle\":" + angle * 10 + "}}");
         return true;
     }
 
@@ -38,7 +38,7 @@ public class CommandControl {
     }
 
     public boolean turnRightDown(int angle) {
-        connectionControl.sendCommand("{\"action\":\"turn_right_down\", \"params\":{\"steering_angle\":" + angle + "}}");
+        connectionControl.sendCommand("{\"action\":\"turn_right_down\", \"params\":{\"steering_angle\":" + angle * 10 + "}}");
         return true;
     }
 
@@ -50,5 +50,13 @@ public class CommandControl {
     public boolean handBreakDown() {
         connectionControl.sendCommand("{\"action\":\"turn_right_down\", \"params\":[]}");
         return true;
+    }
+
+    public void setActiveConn() {
+        connectionControl.setActivated();
+    }
+
+    public void setDeactiveConn() {
+        connectionControl.setDisactivated();
     }
 }

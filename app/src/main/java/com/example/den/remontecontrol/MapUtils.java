@@ -13,9 +13,6 @@ import com.google.android.gms.maps.model.Polyline;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 1/12/2017.
- */
 
 public class MapUtils {
 
@@ -52,7 +49,6 @@ public class MapUtils {
         return poly;
     }
 
-    // // TODO: 1/22/2017 please check
     void fixZoomProblem(LatLng source, LatLng distance, List<LatLng> points, GoogleMap googleMap) {
 
         LatLngBounds.Builder bc = new LatLngBounds.Builder();

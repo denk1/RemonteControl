@@ -25,6 +25,7 @@ public class WorkActivity extends AppCompatActivity {
     Intent intentMapsActivity = null;
     private SharedPreferences sharedPreferences;
     TextView textViewConnectivly = null;
+    TextView txtViewControlConn = null;
     MonitoringStateTask monitoringStateTask = new MonitoringStateTask();
     private static AbstractFactory<Connection> abstractFactory = new AbstractFactoryConnection();
     private static Connection connectionControl = null;
@@ -148,6 +149,10 @@ public class WorkActivity extends AppCompatActivity {
         return false;
     }
 
+    private boolean isConnectedControlServer() {
+        return connectionControl.isConnected();
+    }
+
     // ///////////////////////////////
     // getting IP address
     // ///////////////////////////////
@@ -195,6 +200,7 @@ public class WorkActivity extends AppCompatActivity {
 
     private void initViews() {
         textViewConnectivly = findViewById(R.id.textViewConnection);
+        txtViewControlConn = findViewById(R.id.txtViewControl);
     }
 
     class MonitoringStateTask extends AsyncTask<Void, Boolean,  Void> {
@@ -202,19 +208,27 @@ public class WorkActivity extends AppCompatActivity {
         private Runnable runnable = new Runnable() {
             @Override
             public void run() {
+
                 while (!isCancelled()) {
+                    Boolean[] booleanStates = {false, false};
                     if(isConnectedWiFi()) {
-                        Boolean[] booleanStates = {true};
-                        publishProgress(booleanStates);
-                    } else {
-                        Boolean[] booleanStates = {false};
-                        publishProgress(booleanStates);
+                        booleanStates[0] = true;
+
                     }
+
+                    if(isConnectedControlServer()) {
+                        booleanStates[1] = true;
+                    }
+
+                    publishProgress(booleanStates);
+
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {
 
                     }
+
+
                 }
             }
         };
@@ -234,6 +248,14 @@ public class WorkActivity extends AppCompatActivity {
             } else {
                 textViewConnectivly.setBackgroundColor(getColor(R.color.colorOk));
                 textViewConnectivly.setText("соединение с БТС установлено");
+            }
+
+            if(!states[1]) {
+                txtViewControlConn.setBackgroundColor(getColor(R.color.colorAlarm));
+                txtViewControlConn.setText("соединение с сервером управлегния отсутствует");
+            } else {
+                txtViewControlConn.setBackgroundColor(getColor(R.color.colorOk));
+                txtViewControlConn.setText("соединение с сервером управления установлено");
             }
         }
     }

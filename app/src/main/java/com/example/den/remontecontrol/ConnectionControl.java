@@ -69,6 +69,11 @@ public class ConnectionControl implements Connection {
         return sending(strCmd);
     }
 
+    @Override
+    public  boolean isConnected() {
+        return ws.isOpen();
+    }
+
     private boolean sending(String strCmd) {
         if (ws.isOpen()) {
             ws.sendText(strCmd);
@@ -78,5 +83,15 @@ public class ConnectionControl implements Connection {
         {
             return false;
         }
+    }
+
+    @Override
+    public void setActivated() {
+
+    }
+
+    @Override
+    public void setDisactivated() {
+
     }
 }

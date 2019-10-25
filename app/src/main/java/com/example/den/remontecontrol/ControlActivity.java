@@ -43,6 +43,7 @@ public class ControlActivity extends AppCompatActivity {
     private SeekBar seekBarTurn = null;
     private SeekBar seekBarAccel = null;
     private final String TAG = "ControlActivity";
+    private CommandControl commandControl = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class ControlActivity extends AppCompatActivity {
         textViewSteerCorner = (TextView)findViewById(R.id.textViewSteerCorner);
         textViewSteerRearCorner = (TextView)findViewById(R.id.textViewSteerRearCorner);
         cxt = getBaseContext();
+
 
 
         //proc front steer
@@ -147,7 +149,7 @@ public class ControlActivity extends AppCompatActivity {
 
         JoystickView joystickLeft = (JoystickView) findViewById(R.id.joystickView_left);
         //getting the object of command
-        final CommandControl commandControl = WorkActivity.getCommandControl();
+        commandControl = WorkActivity.getCommandControl();
         joystickLeft.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
@@ -276,8 +278,15 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        commandControl.setActiveConn();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+        commandControl.setDeactiveConn();
         Log.d(TAG, "the method onPause() of the ControlActivity");
     }
 
