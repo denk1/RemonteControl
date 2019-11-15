@@ -17,7 +17,12 @@ public class ConnectionTCP implements Connection {
     private OutputStream outputStream;
     private JSONObject jsonObject;
     private int steeringAngle = 0;
-    private boolean isSending = false;
+    private int throttleProc = 0;
+    private int signMoving = 1;
+    private boolean isSendingMoving = false;
+    private boolean isSendingSteering =false;
+    private boolean isLastSteering = false;
+    private boolean isLastMoving = false;
     private Thread sendCommandThread = null;
     private boolean mRun = true;
 
@@ -60,13 +65,35 @@ public class ConnectionTCP implements Connection {
             setSteeringAngle();
         }
         else if(strCmd.equals("turn_left_up")) {
-            isSending = false;
+            steeringAngle = 0;
+            isSendingSteering = false;
+            isLastSteering = true;
         }
         else if(strCmd.equals("turn_right_down")) {
             setSteeringAngle();
         }
         else if(strCmd.equals("turn_right_up")) {
-            isSending = false;
+            steeringAngle = 0;
+            isSendingSteering = false;
+            isLastSteering = true;
+        }
+        else if(strCmd.equals("racing_down")) {
+            signMoving = 1;
+            setMovingProc();
+        }
+        else if(strCmd.equals("racing_up")) {
+            throttleProc = 0;
+            isSendingMoving = false;
+            isLastMoving = true;
+        }
+        else if(strCmd.equals("stopping_down")) {
+            signMoving = -1;
+            setMovingProc();
+        }
+        else if(strCmd.equals("stopping_up")) {
+            throttleProc = 0;
+            isSendingMoving = false;
+            isLastMoving = true;
         }
         else {
             Log.e(TAG, "the command's recognised ");
@@ -77,10 +104,21 @@ public class ConnectionTCP implements Connection {
         try {
             JSONObject jsonParams = jsonObject.getJSONObject("params");
             steeringAngle = jsonParams.getInt("steering_angle");
-            isSending = true;
+            isSendingSteering = true;
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
+    }
+
+    private void setMovingProc() {
+        try {
+            JSONObject jsonParams = jsonObject.getJSONObject("params");
+            throttleProc = jsonParams.getInt("throttle_proc") * signMoving;
+            isSendingMoving = true;
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
     }
 
     private Runnable sendCommandRunnable = new Runnable() {
@@ -90,15 +128,36 @@ public class ConnectionTCP implements Connection {
             while (mRun) {
                 try {
                     Thread.sleep(10);
-                    if(isSending) {
+                    if(isSendingSteering || isSendingMoving) {
                         try {
-                            outputStream.write(toByteArray(steeringAngle));
+                            int [] params = {steeringAngle, throttleProc};
+                            outputStream.write(toByteArray(params));
                         }
                         catch (IOException e) {
                             Log.e(TAG, e.getMessage());
                         }
 
                     }
+
+                    if (isLastMoving || isLastSteering) {
+                        try {
+                            int [] params = {steeringAngle, throttleProc};
+                            if(isLastSteering) {
+                                params[0] = 0;
+                                isLastSteering = false;
+                            }
+                            if(isLastMoving) {
+                                params[1] = 0;
+                                isLastMoving = false;
+                            }
+                            outputStream.write(toByteArray(params));
+
+                        }
+                        catch (IOException e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+                    }
+
                 }
                 catch (InterruptedException e) {
                     Log.e(TAG, e.getMessage());
@@ -108,10 +167,11 @@ public class ConnectionTCP implements Connection {
         }
     };
 
-    byte[] toByteArray(int value) {
-        byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble(value);
-        return bytes;
+    private byte[] toByteArray(int[] value) {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(16);
+        byteBuffer.putDouble((double) value[0]);
+        byteBuffer.putDouble((double) value[1]);
+        return byteBuffer.array();
     }
 
     @Override

@@ -226,12 +226,16 @@ public class ControlActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int angle = 50 - progress;
                 if(angle < 0) {
-                    commandControl.turnLeftUp();
+                    //commandControl.turnLeftUp();
                     commandControl.turnRightDown(angle);
                 }
                 else if(angle > 0) {
-                    commandControl.turnRightUp();
+                    //commandControl.turnRightUp();
                     commandControl.turnLeftDown(angle);
+                }
+                else {
+                    commandControl.turnLeftUp();
+                    commandControl.turnRightUp();
                 }
             }
 
@@ -253,12 +257,16 @@ public class ControlActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int throttle_degree = 50 - progress;
                 if(throttle_degree < 0) {
-                    commandControl.stoppingUp();
+                    //commandControl.stoppingUp();
                     commandControl.racingDown(abs(throttle_degree) * 2);
                 }
                 else if(throttle_degree > 0) {
-                    commandControl.racingUp();
+                    //commandControl.racingUp();
                     commandControl.stoppingDown(abs(throttle_degree) * 2);
+                }
+                else {
+                    commandControl.stoppingUp();
+                    commandControl.racingUp();
                 }
             }
 
