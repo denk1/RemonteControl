@@ -3,6 +3,7 @@ package com.example.den.remontecontrol;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,10 +17,13 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 import android.annotation.SuppressLint;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
 
 
 public class ControlActivity extends AppCompatActivity {
-
+    final double coeff = 100.0/90.0;
     TabHost tabHost;
     SeekBar seekBarTurnFront;
     SeekBar seekBarTurnRear;
@@ -37,6 +41,9 @@ public class ControlActivity extends AppCompatActivity {
     private TextView mTextViewAngleRight;
     private TextView mTextViewStrengthRight;
     private TextView mTextViewCoordinateRight;
+
+    JoystickView joystickLeft = null;
+    JoystickView joystickRight = null;
 
     // drive
 
@@ -71,7 +78,6 @@ public class ControlActivity extends AppCompatActivity {
         textViewSteerCorner = (TextView)findViewById(R.id.textViewSteerCorner);
         textViewSteerRearCorner = (TextView)findViewById(R.id.textViewSteerRearCorner);
         cxt = getBaseContext();
-
 
 
         //proc front steer
@@ -147,68 +153,11 @@ public class ControlActivity extends AppCompatActivity {
         mTextViewAngleLeft = (TextView) findViewById(R.id.textView_angle_left);
         mTextViewStrengthLeft = (TextView) findViewById(R.id.textView_strength_left);
 
-        JoystickView joystickLeft = (JoystickView) findViewById(R.id.joystickView_left);
         //getting the object of command
         commandControl = WorkActivity.getCommandControl();
-        joystickLeft.setOnMoveListener(new JoystickView.OnMoveListener() {
-            @Override
-            public void onMove(int angle, int strength) {
-                mTextViewAngleLeft.setText(angle + "°");
-                mTextViewStrengthLeft.setText(strength + "%");
-                int turnValueAngle = 50 - strength;
-                if(strength <= 7) {
-                    commandControl.turnLeftUp();
-                    commandControl.turnRightUp();
-                }
-                else if((angle >= 270 || angle < 90))
-                {
-                    commandControl.turnLeftUp();
-                    commandControl.turnRightDown(turnValueAngle);
-                }
-                else
-                {
-                    commandControl.turnRightUp();
-                    commandControl.turnLeftDown(turnValueAngle);
-                }
 
-            }
-        });
-
-
-        mTextViewAngleRight = (TextView) findViewById(R.id.textView_angle_right);
-        mTextViewStrengthRight = (TextView) findViewById(R.id.textView_strength_right);
-        mTextViewCoordinateRight = findViewById(R.id.textView_coordinate_right);
-
-
-        final JoystickView joystickRight = (JoystickView) findViewById(R.id.joystickView_right);
-        joystickRight.setOnMoveListener(new JoystickView.OnMoveListener() {
-            @SuppressLint("DefaultLocale")
-            @Override
-            public void onMove(int angle, int strength) {
-                mTextViewAngleRight.setText(angle + "°");
-                mTextViewStrengthRight.setText(strength + "%");
-                mTextViewCoordinateRight.setText(
-                        String.format("x%03d:y%03d",
-                                joystickRight.getNormalizedX(),
-                                joystickRight.getNormalizedY())
-                );
-                if(strength <= 7)
-                {
-                    commandControl.racingUp();
-                    commandControl.stoppingUp();
-                }
-                else if(angle < 180)
-                {
-                    commandControl.stoppingUp();
-                    commandControl.racingDown(strength);
-                }
-                else
-                {
-                    commandControl.racingUp();
-                    commandControl.stoppingDown(strength);
-                }
-            }
-        });
+        //the initialization of the joystick
+        initJoystick(getResources().getConfiguration().orientation);
 
         TextView txtViewVelocityValue = (TextView)findViewById(R.id.velocity_value);
         InfoParameters infoParameters = InfoParameters.createInfoParameters();
@@ -257,11 +206,11 @@ public class ControlActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int throttle_degree = 50 - progress;
                 if(throttle_degree < 0) {
-                    //commandControl.stoppingUp();
+                    commandControl.stoppingUp();
                     commandControl.racingDown(abs(throttle_degree) * 2);
                 }
                 else if(throttle_degree > 0) {
-                    //commandControl.racingUp();
+                    commandControl.racingUp();
                     commandControl.stoppingDown(abs(throttle_degree) * 2);
                 }
                 else {
@@ -314,6 +263,88 @@ public class ControlActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("current_tab", tabHost.getCurrentTab());
+    }
+
+    private void initJoystick(int orientation) {
+        mTextViewAngleRight =  findViewById(R.id.textView_angle_right);
+        mTextViewStrengthRight = findViewById(R.id.textView_strength_right);
+        mTextViewCoordinateRight = findViewById(R.id.textView_coordinate_right);
+        joystickLeft = findViewById(R.id.joystickView_left);
+        joystickRight = findViewById(R.id.joystickView_right);
+
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            joystickLeft.setOnMoveListener(new JoystickView.OnMoveListener() {
+                @Override
+                public void onMove(int angle, int strength) {
+                   setSteering(angle, strength);
+                }
+            });
+
+            joystickRight.setOnMoveListener(new JoystickView.OnMoveListener() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public void onMove(int angle, int strength) {
+                   setMoving(angle, strength);
+                }
+            });
+        } else {
+            joystickRight.setOnMoveListener(new JoystickView.OnMoveListener() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public void onMove(int angle, int strength) {
+                   setMoving(angle, strength);
+                   setSteering(angle, strength);
+                }
+            });
+        }
+    }
+
+    private void setMoving(int angle, int strength) {
+
+        mTextViewCoordinateRight.setText(
+                String.format("x%03d:y%03d",
+                        joystickRight.getNormalizedX(),
+                        joystickRight.getNormalizedY())
+        );
+        double d = sin(toRadians(angle));
+
+        mTextViewAngleRight.setText(d + "rad");
+        mTextViewStrengthRight.setText(strength + "%");
+        if(abs(strength) <= 10)
+        {
+            commandControl.racingUp();
+            commandControl.stoppingUp();
+        }
+        else
+        {
+            strength = (int)(coeff * (double) (strength - 10));
+            if(d > 0) {
+                commandControl.stoppingUp();
+                commandControl.racingDown((int) ((double) strength * d));
+            } else {
+                commandControl.racingUp();
+                commandControl.stoppingDown((int)((double)strength * -d));
+            }
+        }
+    }
+
+    private void setSteering(int angle, int strength) {
+        double d = cos(toRadians(angle));
+        mTextViewAngleLeft.setText(d + "rad");
+        mTextViewStrengthLeft.setText(strength + "%");
+        if (strength <= 10) {
+            commandControl.turnLeftUp();
+            commandControl.turnRightUp();
+        } else {
+            strength = (int)(coeff * (double) (strength - 10));
+
+            if(d < 0) {
+                commandControl.turnLeftDown((int)((double)strength * -d));
+            } else {
+                commandControl.turnRightDown((int)((double)strength * -d));
+            }
+        }
     }
 }
 

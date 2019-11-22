@@ -144,6 +144,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                             <TextView
                                 android:id="@+id/camera_tv_expose1"
                                 android:layout_width="80dp"
@@ -201,6 +202,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -214,7 +216,21 @@
                                 android:textColor="#FFFFFF" />
 
                         </LinearLayout>
-
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:orientation="horizontal"
+                           android:gravity="center"
+                           android:padding="10dp"
+                           >
+                        <com.github.anastr.speedviewlib.DeluxeSpeedView
+                            android:id="@+id/deluxeSpeedView"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center_horizontal"
+                            app:sv_indicator="NormalIndicator"
+                            />
+                       </LinearLayout>
                         <LinearLayout
                             android:id="@+id/camera_lv_expose"
                             android:layout_width="60dp"
@@ -258,7 +274,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="20dp"
-                            android:text="text example"
+                            android:text="элементы управления"
                             android:textColor="#FFFFFF" />
 
                     </RelativeLayout>

@@ -103,7 +103,7 @@ public class ConnectionTCP implements Connection {
     private void setSteeringAngle() {
         try {
             JSONObject jsonParams = jsonObject.getJSONObject("params");
-            steeringAngle = jsonParams.getInt("steering_angle");
+            steeringAngle = jsonParams.getInt("steering_angle")/2;
             isSendingSteering = true;
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
@@ -185,15 +185,24 @@ public class ConnectionTCP implements Connection {
 
     @Override
     public void setActivated() {
-       if(sendCommandThread.isInterrupted()) {
+       if(!sendCommandThread.isAlive()) {
+           mRun = true;
            sendCommandThread.start();
        }
     }
 
     @Override
     public void setDisactivated() {
-        if(sendCommandThread.isAlive()) {
+        mRun = false;
+        if(!sendCommandThread.isAlive()) {
             sendCommandThread.interrupt();
+        }
+        if(mSocket.isConnected()) {
+            try {
+                mSocket.close();
+            } catch (Exception e) {
+                Log.e(TAG, "the error of the closing connection");
+            }
         }
     }
 }
