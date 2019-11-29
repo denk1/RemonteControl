@@ -4,11 +4,18 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static java.util.Arrays.copyOf;
 
 public class ConnectionTCP implements Connection {
     public final String TAG = "ConnectionTCP";
@@ -25,10 +32,18 @@ public class ConnectionTCP implements Connection {
     private boolean isLastMoving = false;
     private Thread sendCommandThread = null;
     private boolean mRun = true;
+    private InfoManager infoManager = null;
+    private boolean isEndingFrameTM;
+    private int remain_bytes = 0;
+    private byte[] buff = new byte[16];
+    private int prev_readed_bytes = 0;
+    private int current_read_bytes = 0;
+    private ArrayList<Byte> bytes_buff = new ArrayList<>();
 
     public ConnectionTCP() {
         sendCommandThread = new Thread(sendCommandRunnable);
         sendCommandThread.start();
+        infoManager = InfoManager.createInfoManager();
     }
 
     @Override
@@ -126,6 +141,7 @@ public class ConnectionTCP implements Connection {
         public void run() {
             initConnection();
             while (mRun) {
+                getInfo();
                 try {
                     Thread.sleep(10);
                     if(isSendingSteering || isSendingMoving) {
@@ -204,5 +220,62 @@ public class ConnectionTCP implements Connection {
                 Log.e(TAG, "the error of the closing connection");
             }
         }
+    }
+
+    //getting information from vehicle
+
+    private void getInfo() {
+
+        byte[] bytes = new byte[18];
+        int readed_bytes = 0;
+        try {
+            readed_bytes = inputStream.read(bytes);
+
+            if(readed_bytes!=bytes.length) {
+                remain_bytes = bytes.length - readed_bytes;
+                if(!isWholePocket(bytes)) {
+                    if(current_read_bytes + readed_bytes >= bytes.length) {
+                        bytes_buff.addAll(Arrays.asList(ArrayUtils.toObject( Arrays.copyOf(buff, readed_bytes))));
+                        Byte[] temp_bytes = bytes_buff.toArray(new Byte[bytes_buff.size()]);
+                        parsingData(ArrayUtils.toPrimitive(temp_bytes));
+                        bytes_buff.clear();
+                    } else {
+                        bytes_buff.addAll(Arrays.asList(ArrayUtils.toObject( Arrays.copyOf(buff, readed_bytes))));
+                    }
+                } else {
+                    bytes_buff.addAll(Arrays.asList(ArrayUtils.toObject( Arrays.copyOf(buff, readed_bytes))));
+                }
+            } else {
+                if(isWholePocket(bytes)) {
+                    parsingData(bytes);
+                    bytes_buff.clear();
+                } else {
+                     int remain_bytes = readed_bytes - bytes_buff.size();
+                     byte[] remain_array = Arrays.copyOf(buff, remain_bytes);
+                     bytes_buff.addAll(Arrays.asList(ArrayUtils.toObject(remain_array)));
+                     parsingData(bytes);
+                     bytes_buff.clear();
+                }
+            }
+        }catch (Exception e) {
+            Log.e(TAG, "the error of the reading bytes from the input stream");
+        }finally {
+            prev_readed_bytes = readed_bytes;
+            current_read_bytes += readed_bytes;
+        }
+    }
+
+    private boolean isWholePocket(byte [] bytes) {
+        return bytes[0] == 'T' && bytes[1] == 'M';
+    }
+
+    private void parsingData(byte[] bytes) {
+        byte[] velocityBytes = Arrays.copyOfRange(bytes, 2, 10);
+        byte[] angleBytes = Arrays.copyOfRange(bytes,10, 18);
+        double velocity = ConvertData.toDouble(velocityBytes);
+        double angle = ConvertData.toDouble(angleBytes);
+        infoManager.handleParam((float)velocity, InfoManager.CURRENT_VELOCITY_VALUE);
+        infoManager.handleParam((float)angle, InfoManager.CURRENT_STEERING_ANGLE);
+        buff = bytes;
     }
 }

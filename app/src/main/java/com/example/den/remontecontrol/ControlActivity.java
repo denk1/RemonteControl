@@ -16,6 +16,9 @@ import android.widget.Toast;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 import android.annotation.SuppressLint;
 
+import com.github.anastr.speedviewlib.DeluxeSpeedView;
+import com.github.anastr.speedviewlib.SpeedView;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -52,6 +55,9 @@ public class ControlActivity extends AppCompatActivity {
     private final String TAG = "ControlActivity";
     private CommandControl commandControl = null;
 
+    DeluxeSpeedView speedometer1 = null;
+    DeluxeSpeedView speedometer2 = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +85,10 @@ public class ControlActivity extends AppCompatActivity {
         textViewSteerRearCorner = (TextView)findViewById(R.id.textViewSteerRearCorner);
         cxt = getBaseContext();
 
+        speedometer1 = findViewById(R.id.deluxeSpeedView1);
+        speedometer2 = findViewById(R.id.deluxeSpeedView2);
+        speedometer1.setWithTremble(false);
+        speedometer2.setWithTremble(false);
 
         //proc front steer
 
@@ -164,6 +174,8 @@ public class ControlActivity extends AppCompatActivity {
         infoParameters.setViewOfParam("velocity", txtViewVelocityValue);
         infoParameters.setViewOfParam("seekBarCurrAngle", seekBarCurrAngle);
         infoParameters.setViewOfParam("textBoxCurrSteer", textBoxCurrSteer);
+        infoParameters.setViewOfParam("speedometer1", speedometer1);
+        infoParameters.setViewOfParam("speedometer2", speedometer2);
 
         // drive pannel
 

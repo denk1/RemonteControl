@@ -7,6 +7,8 @@ import android.os.Message;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.github.anastr.speedviewlib.DeluxeSpeedView;
+
 public class Vehicle {
     private float velocity;
     private PointF currentLocation;
@@ -48,6 +50,15 @@ public class Vehicle {
             mapSurfaceView.setVehicle(this);
             mapSurfaceView.setCarYaw();
         }
+    }
+
+    public void setVelocitySpeedometer(float velocitySpeedometer) {
+        DeluxeSpeedView deluxeSpeedView1 = (DeluxeSpeedView)infoParameters.getViewOfParam("speedometer1");
+        DeluxeSpeedView deluxeSpeedView2 = (DeluxeSpeedView)infoParameters.getViewOfParam("speedometer2");
+        if(deluxeSpeedView1 != null)
+            deluxeSpeedView1.speedTo(velocitySpeedometer, 500);
+        if(deluxeSpeedView2 != null)
+            deluxeSpeedView2.speedTo(velocitySpeedometer, 500);
     }
 
     public void setCurrentSteeringAngle(float steeringAngle) {
