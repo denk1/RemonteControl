@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -54,6 +56,8 @@ public class ControlActivity extends AppCompatActivity {
     private SeekBar seekBarAccel = null;
     private final String TAG = "ControlActivity";
     private CommandControl commandControl = null;
+    private LinearLayout roadSigns;
+    private LinearLayout linearLayoutIndic;
 
     DeluxeSpeedView speedometer1 = null;
     DeluxeSpeedView speedometer2 = null;
@@ -62,6 +66,10 @@ public class ControlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+
+
+        roadSigns = findViewById(R.id.linearLayoutRoadSigns);
+        linearLayoutIndic = findViewById(R.id.linearLayoutIndic);
 
         tabHost = findViewById(R.id.tabHost);
         seekBarTurnFront = findViewById(R.id.seekBar);
@@ -244,6 +252,8 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+        checkOrientation();
+
     }
 
     @Override
@@ -356,6 +366,27 @@ public class ControlActivity extends AppCompatActivity {
             } else {
                 commandControl.turnRightDown((int)((double)strength * -d));
             }
+        }
+    }
+
+    private void checkOrientation() {
+        int orientation = getResources().getConfiguration().orientation;
+        roadSigns.setOrientation(orientation);
+
+        LinearLayout.LayoutParams paramsSpeed = (LinearLayout.LayoutParams) speedometer1.getLayoutParams();
+        RelativeLayout.LayoutParams paramsInd = (RelativeLayout.LayoutParams) linearLayoutIndic.getLayoutParams();
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            paramsSpeed.setMarginStart(140);
+            paramsInd.setMarginStart(100);
+            speedometer1.setLayoutParams(paramsSpeed);
+            linearLayoutIndic.setLayoutParams(paramsInd);
+            //speedometer1.
+        } else {
+            paramsInd.setMarginStart(30);
+            paramsSpeed.setMarginStart(40);
+            speedometer1.setLayoutParams(paramsSpeed);
+            linearLayoutIndic.setLayoutParams(paramsInd);
+            // In portrait
         }
     }
 }

@@ -142,8 +142,8 @@ public class ConnectionTCP implements Connection {
             initConnection();
             while (mRun) {
                 getInfo();
-                try {
-                    Thread.sleep(10);
+                //try {
+                    //Thread.sleep(10);
                     if(isSendingSteering || isSendingMoving) {
                         try {
                             int [] params = {steeringAngle, throttleProc};
@@ -174,10 +174,10 @@ public class ConnectionTCP implements Connection {
                         }
                     }
 
-                }
-                catch (InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
-                }
+                //}
+                //catch (InterruptedException e) {
+                //    Log.e(TAG, e.getMessage());
+                //}
 
             }
         }
