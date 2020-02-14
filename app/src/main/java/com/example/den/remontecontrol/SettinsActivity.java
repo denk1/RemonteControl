@@ -13,6 +13,8 @@ public class SettinsActivity extends AppCompatActivity {
     public static final String TYPE_OF_CONNECTION = "types_conn";
     public static final String IP_ADDRESS_CONTROL = "ip_address_control";
     public static final String PORT_CONTROL = "port_control";
+    public static final String SIGN_1 = "sign_1";
+    public static final String SIGN_2 = "sign_2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -24,6 +24,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private DropDownPreference dropDownPreferenceTypeConn = null;
     private EditTextPreference editTextPreferenceIpControl = null;
     private EditTextPreference editTextPreferencePortControl = null;
+    private DropDownPreference dropDownPreferenceSign1 = null;
+    private DropDownPreference dropDownPreferenceSign2 = null;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private String oldText;
     SharedPreferences sharedPreferences;
@@ -53,6 +55,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         dropDownPreferenceTypeConn = (DropDownPreference)findPreference(SettinsActivity.TYPE_OF_CONNECTION);
         editTextPreferenceIpControl = (EditTextPreference)findPreference(SettinsActivity.IP_ADDRESS_CONTROL);
         editTextPreferencePortControl = (EditTextPreference)findPreference(SettinsActivity.PORT_CONTROL);
+        dropDownPreferenceSign1 = (DropDownPreference)findPreference(SettinsActivity.SIGN_1);
+        dropDownPreferenceSign2 = (DropDownPreference)findPreference(SettinsActivity.SIGN_2);
 
         oldText = editTextPreferenceIp.getText();
         sharedPreferences = getPreferenceManager().getSharedPreferences();
@@ -63,6 +67,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String valueTypeOfConn = sharedPreferences.getString(SettinsActivity.TYPE_OF_CONNECTION, "NULL");
         String valueIpControl = sharedPreferences.getString(SettinsActivity.IP_ADDRESS_CONTROL, "NULL");
         String valuePortControl = sharedPreferences.getString(SettinsActivity.PORT_CONTROL, "NULL");
+        String valueSign1 = sharedPreferences.getString(SettinsActivity.SIGN_1, "NULL");
+        String valueSign2 = sharedPreferences.getString(SettinsActivity.SIGN_2, "NULL");
         editTextPreferenceIp.setSummary(valueIp);
         editTextPreferencePort.setSummary(valuePort);
         editTextPreferenceIpVideo.setSummary(valueIpVideo);
@@ -70,6 +76,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         dropDownPreferenceTypeConn.setSummary(valueTypeOfConn);
         editTextPreferenceIpControl.setSummary(valueIpControl);
         editTextPreferencePortControl.setSummary(valuePortControl);
+        dropDownPreferenceSign1.setSummary(valueSign1);
+        dropDownPreferenceSign2.setSummary(valueSign2);
     }
 
     private void createListener() {
@@ -98,6 +106,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
                 else if(key.equals(SettinsActivity.PORT_CONTROL)) {
                     editTextPreferencePortControl.setSummary(value);
+                }
+                else if(key.equals(SettinsActivity.SIGN_1)) {
+                    dropDownPreferenceSign1.setSummary(value);
+                }
+                else if(key.equals(SettinsActivity.SIGN_2)) {
+                    dropDownPreferenceSign2.setSummary(value);
                 }
             }
         };

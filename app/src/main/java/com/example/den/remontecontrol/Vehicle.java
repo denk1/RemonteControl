@@ -55,6 +55,7 @@ public class Vehicle {
     public void setVelocitySpeedometer(float velocitySpeedometer) {
         DeluxeSpeedView deluxeSpeedView1 = (DeluxeSpeedView)infoParameters.getViewOfParam("speedometer1");
         DeluxeSpeedView deluxeSpeedView2 = (DeluxeSpeedView)infoParameters.getViewOfParam("speedometer2");
+
         if(deluxeSpeedView1 != null)
             deluxeSpeedView1.speedTo(velocitySpeedometer, 500);
         if(deluxeSpeedView2 != null)

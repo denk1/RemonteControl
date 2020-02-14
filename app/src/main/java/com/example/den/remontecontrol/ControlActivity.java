@@ -3,13 +3,19 @@ package com.example.den.remontecontrol;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TabHost;
@@ -56,11 +62,14 @@ public class ControlActivity extends AppCompatActivity {
     private SeekBar seekBarAccel = null;
     private final String TAG = "ControlActivity";
     private CommandControl commandControl = null;
-    private LinearLayout roadSigns;
-    private LinearLayout linearLayoutIndic;
+    private LinearLayout roadSigns = null;
+    private LinearLayout linearLayoutIndic = null;
+    private LinearLayout linearLayoutTurn = null;
 
     DeluxeSpeedView speedometer1 = null;
     DeluxeSpeedView speedometer2 = null;
+    ImageView imageViewSign1 = null;
+    ImageView imageViewSign2 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +104,41 @@ public class ControlActivity extends AppCompatActivity {
 
         speedometer1 = findViewById(R.id.deluxeSpeedView1);
         speedometer2 = findViewById(R.id.deluxeSpeedView2);
+        imageViewSign1 = findViewById(R.id.imageViewSign1);
+        imageViewSign2 = findViewById(R.id.imageViewSign2);
+        linearLayoutTurn = findViewById(R.id.linearLayoutTurn);
+        Resources res = getResources();
+        Drawable drawableAccel = ContextCompat.getDrawable(this, R.drawable.progress_bar);
+        Drawable drawableBreakingUp =  ContextCompat.getDrawable(this, R.drawable.progress_bar);
+        // tempture and pression
+        String strAccel = getResources().getString(R.string.acceleration);
+        String strBreakingUp = getResources().getString(R.string.breaking_up);
+        String strVelocity = getResources().getString(R.string.velocity);
+        ProgressBar progressBarAccel = findViewById(R.id.accelProgressBar);
+        ProgressBar progressBarBreakeUp = findViewById(R.id.breakUpProgressBar);
+        strAccel = strAccel.substring(0, strAccel.length() -1);
+        strBreakingUp = strBreakingUp.substring(0, strBreakingUp.length() -1);
+        float fVelocity = Float.parseFloat(strVelocity);
+        float fAccel = Float.parseFloat(strAccel);
+        float fBreakingUp = Float.parseFloat(strBreakingUp);
+        progressBarAccel.setProgress((int)fAccel);   // Main Progress
+        progressBarBreakeUp.setProgress((int)fBreakingUp);
+        progressBarAccel.setProgressDrawable(drawableAccel);
+        progressBarAccel.setMax(100);
+        progressBarBreakeUp.setProgressDrawable(drawableBreakingUp);
+        progressBarBreakeUp.setMax(100);
         speedometer1.setWithTremble(false);
         speedometer2.setWithTremble(false);
+        speedometer1.speedTo(fVelocity);
+        speedometer1.setSpeedTextFormat(3);
+        SharedPreferences sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        String strSign1 = sharedPreferences.getString("sign_1", "1");
+        String strSign2 = sharedPreferences.getString("sign_2", "1");
+        strSign1 = getResources().getString(R.string.current_sign);
+        setSignValue(strSign1, imageViewSign1);
+        setSignValue(strSign2, imageViewSign2);
+
+
 
         //proc front steer
 
@@ -189,6 +231,7 @@ public class ControlActivity extends AppCompatActivity {
 
         seekBarTurn = findViewById(R.id.seekBarTurn);
         seekBarAccel = findViewById(R.id.seekBarAccel);
+
 
         seekBarTurn.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -387,6 +430,25 @@ public class ControlActivity extends AppCompatActivity {
             speedometer1.setLayoutParams(paramsSpeed);
             linearLayoutIndic.setLayoutParams(paramsInd);
             // In portrait
+        }
+    }
+
+    private void setSignValue(String strValue, ImageView imageView) {
+        imageView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorTextViewWork));
+        if(strValue != null) {
+            if (strValue.equals("1")) {
+                imageView.setImageResource(R.drawable.dorznak15);
+            } else if (strValue.equals("2")) {
+                imageView.setImageResource(R.drawable.dorznak10);
+            } else if (strValue.equals("3")) {
+                imageView.setImageResource(R.drawable.dorznak5);
+            } else if (strValue.equals("4")) {
+                imageView.setImageResource(R.drawable.stop);
+            } else if (strValue.equals("5")) {
+                imageView.setImageResource(R.drawable.crosswalk);
+            } else {
+                //imageView.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorTextViewWork));
+            }
         }
     }
 }

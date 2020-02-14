@@ -42,6 +42,14 @@
         <item name="android:textColor">#FFAA00</item>
     </style>
 
+    <style name="info_road_events" parent="android:Widget.TextView" >
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#FFAA00</item>
+        <item name="android:layout_margin">7dp</item>
+    </style>
+
     <style name="indicator">
         <item name="android:layout_margin">10dp</item>
         <item name="android:layout_height">24dp</item>

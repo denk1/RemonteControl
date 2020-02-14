@@ -13,16 +13,16 @@
     <string name="table_column_device">Название узла</string>
     <string name="table_column_level_emergency">Степень критичности</string>
     <string name="table_column_description">Описание ошибки</string>
-    <string name="tab_one_title">Руление</string>
-    <string name="tab_two_title">Движение</string>
+    <string name="tab_one_title">Дорожные события</string>
+    <string name="tab_two_title">Мониторинг</string>
     <string name="tab_three_title">Освещение</string>
     <string name="tab_control_steer">Поворот передней оси</string>
     <string name="tab_control_steer_back">Поворот задней оси</string>
     <string name="tab_control_vehicle_turn">Скорость поворота</string>
-    <string name="tab_info_one_title">Показания датчиков</string>
-    <string name="tab_info_two_title">Состояние систем</string>
-    <string name="tab_info_three_title">Состояние БКЭ</string>
-    <string name="tab_info_four_title">Состояние ИНС</string>
+    <string name="tab_info_one_title"> </string>
+    <string name="tab_info_two_title"> </string>
+    <string name="tab_info_three_title"> </string>
+    <string name="tab_info_four_title">Температура</string>
     <string name="subtab_info_steer_title">Рулевые рейки</string>
     <string name="subtab_info_velocity_title">Текущая скорость</string>
     <string name="subtab_info_ac_dc_title">Батарея и питание</string>
@@ -32,6 +32,25 @@
     <string name="title_activity_google_maps">Map</string>
     <string name="menu_item_monitoring">Мониторинг камер</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="acceleration">0%</string>
+    <string name="breaking_up">0%</string>
+    <string name="time_of_expirements">75.26</string>
+    <string name="gearing_now">N</string>
+    <string name="velocity">0.0</string>
+    <string name="road_event_name">дорожный знак</string>
+    <string name="time_road_event">352.1 с</string>
+    <string name="coord_of_nord">-325.184 м</string>
+    <string name="coord_of_east">197.683 м</string>
+    <string name="current_velocity">15.05 км/ч</string>
+    <string name="current_sign">1</string>
+    <string name="tire1">42.2°</string>
+    <string name="tire2">46.6°</string>
+    <string name="tire3">48.9°</string>
+    <string name="tire4">36.9°</string>
+    <string name="break_up1">125.4°</string>
+    <string name="break_up2">128.4°</string>
+    <string name="break_up3">144.9°</string>
+    <string name="break_up4">136.2°</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

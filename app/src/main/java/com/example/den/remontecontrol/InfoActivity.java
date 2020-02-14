@@ -102,14 +102,14 @@ public class InfoActivity extends AppCompatActivity {
         // tempture and pression
 
         ProgressBar mProgressTemptureEngine = findViewById(R.id.progressBarTemptureEngine);
-        ProgressBar mProgressTemptureDC_DC = findViewById(R.id.progressBarTempDC_DC);
+        ProgressBar mProgressTemptureDC_DC = findViewById(R.id.breakUpProgressBar);
 
         mProgressFront.setProgress(50);   // Main Progress
         mProgressRear.setProgress(50);
         mProgressBattery.setProgress(0);
 
-        mProgressTemptureEngine.setProgress(25);
-        mProgressTemptureDC_DC.setProgress(40);
+        //mProgressTemptureEngine.setProgress(25);
+        //mProgressTemptureDC_DC.setProgress(40);
 //        mProgress.setSecondaryProgress(50); // Secondary Progress
         mProgressFront.setMax(100); // Maximum Progress
         mProgressFront.setProgressDrawable(drawable);
@@ -122,8 +122,8 @@ public class InfoActivity extends AppCompatActivity {
 
         mProgressTemptureEngine.setProgressDrawable(drawable);
         mProgressTemptureEngine.setMax(100);
-        mProgressTemptureDC_DC.setProgressDrawable(drawable);
-        mProgressTemptureDC_DC.setMax(100);
+        //mProgressTemptureDC_DC.setProgressDrawable(drawable);
+        //mProgressTemptureDC_DC.setMax(100);
     }
 
     @Override

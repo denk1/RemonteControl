@@ -44,4 +44,21 @@
         android:key="port_control"
         android:title="Port" />
 
+    <Preference android:layout="@layout/prev_title_sign" />
+
+    <android.support.v7.preference.DropDownPreference
+        android:defaultValue=""
+        android:key="sign_1"
+        android:title="знак 1"
+        android:entries="@array/names_of_signs"
+        android:entryValues="@array/values_of_signs"/>
+
+    <android.support.v7.preference.DropDownPreference
+        android:defaultValue=""
+        android:key="sign_2"
+        android:title="знак 2"
+        android:entries="@array/names_of_signs"
+        android:entryValues="@array/values_of_signs"/>
+
+
 </PreferenceScreen>

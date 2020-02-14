@@ -5,4 +5,20 @@
         <item>tcp</item>
         <item>udp</item>
     </array>
+    <array name="names_of_signs">
+        <item>отсутствует</item>
+        <item>ограничение скорости - 15</item>
+        <item>ограничение скорости - 10</item>
+        <item>ограничение скорости - 5</item>
+        <item>STOP</item>
+        <item>Пешеходный переход</item>
+    </array>
+    <array name="values_of_signs">
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+    </array>
 </resources>
