@@ -603,6 +603,24 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/textView_angle_left"
                             android:text="32.74%" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_below="@+id/textView_strength_left">
+                            <TextView
+                                android:id="@+id/textViewJoystick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorAlarm"
+                                android:text="Джойстик:"/>
+                            <TextView
+                                android:id="@+id/joystickViewState"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="выкл"
+                                android:textColor="@color/colorAlarm"/>
+                        </LinearLayout>
 
 
                         <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
@@ -630,7 +648,7 @@
                             android:id="@+id/textView_angle_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:text="0°" />
 
 
@@ -639,7 +657,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/textView_angle_right"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:text="0%" />
 
 
@@ -648,7 +666,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/textView_strength_right"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:text="x050:x050" />
 
 
@@ -657,7 +675,7 @@
                             android:id="@+id/joystickView_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_marginTop="64dp"
                             custom:JV_backgroundColor="#009688"

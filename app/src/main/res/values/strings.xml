@@ -51,6 +51,9 @@
     <string name="break_up2">128.4°</string>
     <string name="break_up3">144.9°</string>
     <string name="break_up4">136.2°</string>
+    <string name="joystick_item">Джойстик</string>
+    <string name="title_joystick_activity">Индикатор джойстика</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

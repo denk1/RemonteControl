@@ -35,7 +35,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_pause_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/opt/android-studio-ide-191.6010548-linux/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_speaker_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -67,8 +67,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_pause" />
-                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="outputName" value="ic_joystick" />
+                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="themeColor" value="e1e1e5" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -85,17 +86,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="foregroundClipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_live_help_black_24dp.xml" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -131,6 +122,7 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundImage" value="$USER_HOME$/Pictures/shagurin.png" />
+                                      <entry key="foregroundAssetType" value="CLIP_ART" />
                                       <entry key="foregroundImage" value="$USER_HOME$/Pictures/shagurin.png" />
                                     </map>
                                   </option>
@@ -179,6 +171,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

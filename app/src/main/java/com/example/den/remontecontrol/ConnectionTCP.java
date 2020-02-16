@@ -147,7 +147,8 @@ public class ConnectionTCP implements Connection {
                     if(isSendingSteering || isSendingMoving) {
                         try {
                             int [] params = {steeringAngle, throttleProc};
-                            outputStream.write(toByteArray(params));
+                            if(outputStream != null)
+                                outputStream.write(toByteArray(params));
                         }
                         catch (IOException e) {
                             Log.e(TAG, e.getMessage());
@@ -166,7 +167,8 @@ public class ConnectionTCP implements Connection {
                                 params[1] = 0;
                                 isLastMoving = false;
                             }
-                            outputStream.write(toByteArray(params));
+                            if(outputStream != null)
+                                outputStream.write(toByteArray(params));
 
                         }
                         catch (IOException e) {
@@ -213,11 +215,13 @@ public class ConnectionTCP implements Connection {
         if(!sendCommandThread.isAlive()) {
             sendCommandThread.interrupt();
         }
-        if(mSocket.isConnected()) {
-            try {
-                mSocket.close();
-            } catch (Exception e) {
-                Log.e(TAG, "the error of the closing connection");
+        if(mSocket != null) {
+            if (mSocket.isConnected()) {
+                try {
+                    mSocket.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "the error of the closing connection");
+                }
             }
         }
     }

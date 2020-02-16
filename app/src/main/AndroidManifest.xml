@@ -20,7 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CameraMonitoringActivity"></activity>
+        <activity android:name=".JoystickActivity"
+                  android:parentActivityName=".ControlActivity"
+                  android:launchMode="singleTask"
+            >
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DE_ATTACHED" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".CameraMonitoringActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
