@@ -30,6 +30,7 @@ public class WorkActivity extends AppCompatActivity {
     private static AbstractFactory<Connection> abstractFactory = new AbstractFactoryConnection();
     private static Connection connectionControl = null;
     private static CommandControl commandControl = null;
+    private JoystickCommunication joystickCommunication = null;
 
     private String TYPE_CONNECTION = null;
     public static String IP_CONTROL = null;
@@ -60,6 +61,7 @@ public class WorkActivity extends AppCompatActivity {
             textViewConnectivly.setBackgroundColor(getColor(R.color.colorAlarm));
             textViewConnectivly.setText("соединение с БТС отсутствует");
         }
+        joystickCommunication = JoystickCommunication.getInstance(this);
         monitoringStateTask.execute();
     }
 

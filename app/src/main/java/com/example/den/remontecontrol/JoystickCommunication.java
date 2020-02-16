@@ -25,7 +25,7 @@ import java.util.Iterator;
 public class JoystickCommunication {
 
     public static volatile JoystickCommunication instance = null;
-    private JoystickActivity mJoystickActivity = null;
+    private WorkActivity mJoystickActivity = null;
     private UsbDevice mUsbDevice = null;
     private UsbManager mUsbManager = null;
     private UsbDeviceConnection mUsbDeviceConnection = null;
@@ -36,7 +36,7 @@ public class JoystickCommunication {
     private final String USB_ACTION_PERMITION = "permition";
     private boolean mDisableUsbThread = false;
 
-    public static JoystickCommunication getInstance(JoystickActivity joystickActivity) {
+    public static JoystickCommunication getInstance(WorkActivity joystickActivity) {
         if(instance == null)
             synchronized (JoystickCommunication.class) {
                 if(instance == null)
@@ -45,7 +45,7 @@ public class JoystickCommunication {
         return instance;
     }
 
-    private JoystickCommunication(JoystickActivity joystickActivity) {
+    private JoystickCommunication(WorkActivity joystickActivity) {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(USB_ACTION_PERMITION);
         intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);

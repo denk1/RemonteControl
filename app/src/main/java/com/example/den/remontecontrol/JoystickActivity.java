@@ -39,16 +39,11 @@ public class JoystickActivity extends AppCompatActivity {
         button = findViewById(R.id.button1);
         textView = findViewById(R.id.textView);
         mJoystickProvider = JoystickProvider.getInstance();
-        joystickCommunication = JoystickCommunication.getInstance(this);
+        //joystickCommunication = JoystickCommunication.getInstance(this);
         mPointF = new PointF(0, 0);
         handler = new Handler();
         convert = circleView.getConvert();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                joystickCommunication.startThreadUsb();
-            }
-        });
+
     }
 
     @Override
