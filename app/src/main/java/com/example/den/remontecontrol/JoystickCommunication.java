@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.PointF;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
@@ -35,6 +36,8 @@ public class JoystickCommunication {
     private final String TAG = "JoystickCommutation";
     private final String USB_ACTION_PERMITION = "permition";
     private boolean mDisableUsbThread = false;
+    private CommandAdapter mCommandAdapter = null;
+    private int [] convert = new int[256];
 
     public static JoystickCommunication getInstance(WorkActivity joystickActivity) {
         if(instance == null)
@@ -59,9 +62,20 @@ public class JoystickCommunication {
         byteA[0] = testValue; byteA[1] = testValue; byteA[2] = testValue; byteA[3] = testValue;
         byteA[4] = testValue; byteA[5] = testValue; byteA[6] = testValue; byteA[7] = testValue;
         JoystickProvider.getInstance().setByteA(byteA);
+        initConvert();
+        mCommandAdapter = new CommandAdapter();
     }
 
 
+
+    private void initConvert() {
+        for(int i = 0; i < 128; i++) {
+
+            convert[i] = -i;
+            convert[i + 127 + 1] = 128 - i;
+
+        }
+    }
 
 
     private BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
@@ -183,6 +197,7 @@ public class JoystickCommunication {
                 //request.queue(byteBuffer, 8);
                 //mUsbDeviceConnection.requestWait();
                 hasData = mUsbDeviceConnection.bulkTransfer(mUsbEndpoint1, byteA, mUsbEndpoint1.getMaxPacketSize(), 2000) >= 0;
+
                 //final String testStr = byteBuffer.array().toString();
                 //resultBuilder.append(testStr);
 
@@ -192,10 +207,15 @@ public class JoystickCommunication {
                     JoystickProvider.getInstance().getJoystick2().x = (int) byteA[2];
                     JoystickProvider.getInstance().getJoystick2().y = (int) byteA[3];
                     JoystickProvider.getInstance().setByteA(byteA);
+                    sendCommand(convert[(int) byteA[0] + 128], convert[(int) byteA[1] + 128], convert[(int) byteA[2] + 128], convert[(int) byteA[3] + 128]);
                 }
                 request.close();
             }
         }
+    }
+
+    private void sendCommand(int x1, int y1, int x2, int y2) {
+       mCommandAdapter.sendingCommand(x1, y1, x2, y2);
     }
 
     class UsbTask extends AsyncTask<String, String, String> {

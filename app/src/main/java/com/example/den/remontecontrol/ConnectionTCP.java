@@ -31,6 +31,7 @@ public class ConnectionTCP implements Connection {
     private boolean isLastSteering = false;
     private boolean isLastMoving = false;
     private Thread sendCommandThread = null;
+    private Thread getTelemetryThread = null;
     private boolean mRun = true;
     private InfoManager infoManager = null;
     private boolean isEndingFrameTM;
@@ -42,6 +43,7 @@ public class ConnectionTCP implements Connection {
 
     public ConnectionTCP() {
         sendCommandThread = new Thread(sendCommandRunnable);
+        getTelemetryThread = new Thread(getTelemetryRunnable);
         sendCommandThread.start();
         infoManager = InfoManager.createInfoManager();
     }
@@ -140,10 +142,11 @@ public class ConnectionTCP implements Connection {
         @Override
         public void run() {
             initConnection();
+            //getTelemetryThread.start();
             while (mRun) {
-                getInfo();
-                //try {
-                    //Thread.sleep(10);
+                //getInfo();
+                try {
+                    Thread.sleep(10);
                     if(isSendingSteering || isSendingMoving) {
                         try {
                             int [] params = {steeringAngle, throttleProc};
@@ -176,10 +179,26 @@ public class ConnectionTCP implements Connection {
                         }
                     }
 
-                //}
-                //catch (InterruptedException e) {
-                //    Log.e(TAG, e.getMessage());
-                //}
+                }
+                catch (InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+            }
+        }
+    };
+
+    private Runnable getTelemetryRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (mRun) {
+                try {
+                    Thread.sleep(1);
+                    getInfo();
+                }
+                catch (InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                }
 
             }
         }

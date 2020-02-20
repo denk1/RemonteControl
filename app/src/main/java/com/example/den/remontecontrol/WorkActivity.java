@@ -29,7 +29,7 @@ public class WorkActivity extends AppCompatActivity {
     MonitoringStateTask monitoringStateTask = new MonitoringStateTask();
     private static AbstractFactory<Connection> abstractFactory = new AbstractFactoryConnection();
     private static Connection connectionControl = null;
-    private static CommandControl commandControl = null;
+    private static volatile CommandControl commandControl = null;
     private JoystickCommunication joystickCommunication = null;
 
     private String TYPE_CONNECTION = null;

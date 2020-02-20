@@ -106,7 +106,7 @@ public class JoystickActivity extends AppCompatActivity {
                             circleView2.invalidate();
                             // the adding test
                             byte[] byteA = JoystickProvider.getInstance().getByteA();
-                            textView.setText(String.format("%d %d %d %d %d %d %d %d",
+                            textView.setText(String.format("%d %d %d %d %d %d %d %d %f %f",
                                     convert[(int) byteA[0] + 128],
                                     convert[(int) byteA[1] + 128],
                                     convert[(int) byteA[2] + 128],
@@ -114,7 +114,9 @@ public class JoystickActivity extends AppCompatActivity {
                                     convert[(int) byteA[4] + 128],
                                     convert[(int) byteA[5] + 128],
                                     convert[(int) byteA[6] + 128],
-                                    convert[(int) byteA[7] + 128]));
+                                    convert[(int) byteA[7] + 128],
+                                    Math.toDegrees(Math.atan2( (double) convert[(int) byteA[0] + 128], (double) convert[(int) byteA[1] + 128])),
+                                    Math.toDegrees(Math.atan2( (double) convert[(int) byteA[2] + 128], (double) convert[(int) byteA[3] + 128]))));
                         }
                     });
 
