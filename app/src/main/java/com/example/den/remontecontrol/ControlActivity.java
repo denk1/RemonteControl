@@ -408,10 +408,10 @@ public class ControlActivity extends AppCompatActivity {
         {
             strength = (int)(coeff * (double) (strength - 10));
             if(d > 0) {
-                commandControl.stoppingUp();
+                //commandControl.stoppingUp();
                 commandControl.racingDown((int) ((double) strength * d));
             } else {
-                commandControl.racingUp();
+                //commandControl.racingUp();
                 commandControl.stoppingDown((int)((double)strength * -d));
             }
         }
