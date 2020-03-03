@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
@@ -64,6 +66,7 @@ public class JoystickCommunication {
         JoystickProvider.getInstance().setByteA(byteA);
         initConvert();
         mCommandAdapter = new CommandAdapter();
+        startUsbConnection();
     }
 
 
@@ -83,14 +86,7 @@ public class JoystickCommunication {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction() != null) {
                 if (intent.getAction().equals(USB_ACTION_PERMITION)) {
-                    boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
-                    Log.i(TAG, "granted permission");
-                    if (granted) {
-                        Log.i(TAG, "grant has been getting");
-                        initConnection();
-                    } else {
-                        Log.i(TAG, "not permission usb-granted");
-                    }
+                    checkPermitionUSbAndStart(intent);
                 } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
                     startUsbConnection();
 
@@ -104,7 +100,7 @@ public class JoystickCommunication {
 
 
     private void startUsbConnection() {
-        mDisableUsbThread = false;
+
         mUsbManager = (UsbManager) mJoystickActivity.getSystemService(Context.USB_SERVICE);
         HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
         if(deviceList != null) {
@@ -118,15 +114,19 @@ public class JoystickCommunication {
         //Log.d(TAG, "Found USB device" + mUsbDevice.toString());
         if(mUsbDevice != null) {
             log("the device has found");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(mJoystickActivity, 0, new Intent(USB_ACTION_PERMITION), 0);
+            mUsbManager.requestPermission(mUsbDevice, pendingIntent);
+            mDisableUsbThread = false;
         } else {
             log("the device hasn't found");
         }
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mJoystickActivity, 0, new Intent(USB_ACTION_PERMITION), 0);
-        mUsbManager.requestPermission(mUsbDevice, pendingIntent);
     }
 
     private void stopUsbConnection() {
         mDisableUsbThread = true;
+        if(mUsbDeviceConnection != null)
+            mUsbDeviceConnection.close();
+        setDeactivateInd();
     }
 
     private void initConnection() {
@@ -152,7 +152,7 @@ public class JoystickCommunication {
             log("type of endpoint 2: " + typeEndPoint2);
             StartTask startTask = new StartTask();
             new Thread(startTask).start();
-
+            setActivatedInd();
         }
     }
 
@@ -160,7 +160,8 @@ public class JoystickCommunication {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(mJoystickActivity, str_log, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mJoystickActivity, str_log, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, str_log);
             }
         });
     }
@@ -218,6 +219,20 @@ public class JoystickCommunication {
        mCommandAdapter.sendingCommand(x1, y1, x2, y2);
     }
 
+    private void setActivatedInd() {
+        Resources.Theme theme = mJoystickActivity.getTheme();
+        Drawable drawable = mJoystickActivity.getResources().getDrawable(R.drawable.back, theme);
+        mJoystickActivity.getJoystickInd().setBackground(drawable);
+        mJoystickActivity.getJoystickInd().setText("Джойстик подключен");
+    }
+
+    private void setDeactivateInd() {
+        Resources.Theme theme = mJoystickActivity.getTheme();
+        Drawable drawable = mJoystickActivity.getResources().getDrawable(R.drawable.back_alarm, theme);
+        mJoystickActivity.getJoystickInd().setBackground(drawable);
+        mJoystickActivity.getJoystickInd().setText("Джойстик отключен");
+    }
+
     class UsbTask extends AsyncTask<String, String, String> {
         UsbTask() {
             super();
@@ -240,6 +255,16 @@ public class JoystickCommunication {
         }
     }
 
+    private void checkPermitionUSbAndStart(Intent intent) {
+        boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+        Log.i(TAG, "granted permission");
+        if (granted) {
+            Log.i(TAG, "grant has been getting");
+            initConnection();
+        } else {
+            Log.i(TAG, "not permission usb-granted");
+        }
+    }
 
 
     class ExampleRunnable implements Runnable {

@@ -41,7 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/back"
-        android:text="Ручное управление включено"
+        android:text="@string/manual_indicator"
         android:textColor="@color/colorTextViewWork"
         android:textSize="24sp"
         android:gravity="center_horizontal|center_vertical"
@@ -62,7 +62,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/back"
-        android:text="Ошибок в блоке VCU не обнаружено"
+        android:text="@string/error_vcu_indicator"
         android:textColor="@color/colorTextViewWork"
         android:textSize="24sp"
         android:gravity="center_horizontal|center_vertical"
@@ -77,11 +77,26 @@
         android:layout_height="0dp"
         android:background="@drawable/back"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Соединение с сервером управления отсутствует"
+        android:text="@string/control_indicator"
         android:textColor="@color/colorTextViewWork"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/textViewJoystick"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/back_alarm"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/joystick_indicator"
+        android:textColor="@color/colorTextViewWork"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/guideline3" />
+
 </android.support.constraint.ConstraintLayout>
