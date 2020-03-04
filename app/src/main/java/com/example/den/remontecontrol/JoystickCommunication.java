@@ -15,6 +15,7 @@ import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.hardware.usb.UsbRequest;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -66,7 +67,8 @@ public class JoystickCommunication {
         JoystickProvider.getInstance().setByteA(byteA);
         initConvert();
         mCommandAdapter = new CommandAdapter();
-        startUsbConnection();
+        startUsbConnection(mJoystickActivity.getIntent());
+        //startUsbConnection(null);
     }
 
 
@@ -88,7 +90,7 @@ public class JoystickCommunication {
                 if (intent.getAction().equals(USB_ACTION_PERMITION)) {
                     checkPermitionUSbAndStart(intent);
                 } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-                    startUsbConnection();
+                    startUsbConnection(intent);
 
                 } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
                     stopUsbConnection();
@@ -99,8 +101,7 @@ public class JoystickCommunication {
 
 
 
-    private void startUsbConnection() {
-
+    private void startUsbConnection(Intent intent) {
         mUsbManager = (UsbManager) mJoystickActivity.getSystemService(Context.USB_SERVICE);
         HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
         if(deviceList != null) {
@@ -114,8 +115,19 @@ public class JoystickCommunication {
         //Log.d(TAG, "Found USB device" + mUsbDevice.toString());
         if(mUsbDevice != null) {
             log("the device has found");
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(mJoystickActivity, 0, new Intent(USB_ACTION_PERMITION), 0);
-            mUsbManager.requestPermission(mUsbDevice, pendingIntent);
+            boolean granted = false;
+            if(intent != null) {
+                Bundle bundle = intent.getExtras();
+                if(bundle != null)
+                    granted = bundle.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+            }
+            //Toast.makeText(mJoystickActivity, "working here", Toast.LENGTH_SHORT  ).show();
+            //if(!granted) {
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(mJoystickActivity, 0, new Intent(USB_ACTION_PERMITION), 0);
+                mUsbManager.requestPermission(mUsbDevice, pendingIntent);
+            //} else {
+            //    checkPermitionUSbAndStart(intent);
+            //}
             mDisableUsbThread = false;
         } else {
             log("the device hasn't found");

@@ -26,6 +26,7 @@
             >
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DE_ATTACHED" />
+                <action android:name="android.hardware.usb.action.USB_ATTACHED" />
             </intent-filter>
         </activity>
         <activity android:name=".CameraMonitoringActivity" />
