@@ -65,6 +65,13 @@ public class WorkActivity extends AppCompatActivity {
         joystickCommunication = JoystickCommunication.getInstance(this);
         textViewJoystickState = findViewById(R.id.textViewJoystick);
         monitoringStateTask.execute();
+        //commandControl.setActiveConn();
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        joystickCommunication.dispose();
+        //commandControl.setDeactiveConn();
     }
 
     @Override
@@ -234,8 +241,6 @@ public class WorkActivity extends AppCompatActivity {
                     } catch (Exception e) {
 
                     }
-
-
                 }
             }
         };

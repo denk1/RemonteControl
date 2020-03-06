@@ -2,13 +2,15 @@ package com.example.den.remontecontrol;
 
 public class CommandControl {
     private Connection connectionControl;
+    private int offsetDriveMode = 0;
 
     public CommandControl(Connection cntCtr) {
         connectionControl = cntCtr;
     }
 
     public boolean racingDown(int coeffForce) {
-        connectionControl.sendCommand("{\"action\":\"racing_down\", \"params\":{\"throttle_proc\":" + coeffForce + "}}");
+        coeffForce += offsetDriveMode;
+        connectionControl.sendCommand("{\"action\":\"racing_down\", \"params\":{\"throttle_proc\":" + coeffForce  + "}}");
         return true;
     }
 
@@ -18,6 +20,7 @@ public class CommandControl {
     }
 
     public boolean stoppingDown(int coeffForce) {
+        coeffForce += offsetDriveMode;
         connectionControl.sendCommand("{\"action\":\"stopping_down\", \"params\":{\"throttle_proc\":" + coeffForce + "}}");
         return true;
     }
@@ -58,5 +61,17 @@ public class CommandControl {
 
     public void setDeactiveConn() {
         connectionControl.setDisactivated();
+    }
+
+    public void setForward() {
+        offsetDriveMode = 0;
+    }
+
+    public void setReverse() {
+        offsetDriveMode = 800;
+    }
+
+    public void emergency() {
+        racingDown(1500);
     }
 }

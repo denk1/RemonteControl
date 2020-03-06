@@ -1,15 +1,12 @@
 package com.example.den.remontecontrol;
 import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONException;
@@ -51,15 +48,11 @@ public class ConnectionTCP implements Connection {
     @Override
     public void initConnection() {
         try {
-            //WorkActivity.IP_CONTROL = "192.168.88.199";
-            //WorkActivity.PORT_CONTROL = 8001;
             mSocket = new Socket(WorkActivity.IP_CONTROL, WorkActivity.PORT_CONTROL);
             mSocket.setKeepAlive(true);
             mSocket.setSoTimeout(90000);
             inputStream = mSocket.getInputStream();
             outputStream = mSocket.getOutputStream();
-            //byte[] bytes = {1};
-            //outputStream.write(bytes);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -130,7 +123,16 @@ public class ConnectionTCP implements Connection {
     private void setMovingProc() {
         try {
             JSONObject jsonParams = jsonObject.getJSONObject("params");
-            throttleProc = jsonParams.getInt("throttle_proc") * signMoving;
+            throttleProc = jsonParams.getInt("throttle_proc");
+            if (throttleProc < 200)
+                throttleProc = throttleProc * signMoving;
+            else if(throttleProc == 2300) {
+                throttleProc = 1500;
+            }
+            else {
+                int shift = throttleProc - 800;
+                throttleProc = 800 + shift * signMoving;
+            }
             isSendingMoving = true;
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
@@ -146,7 +148,7 @@ public class ConnectionTCP implements Connection {
             while (mRun) {
                 //getInfo();
                 try {
-                    Thread.sleep(10);
+
                     if(isSendingSteering || isSendingMoving) {
                         try {
                             int [] params = {steeringAngle, throttleProc};
@@ -158,7 +160,7 @@ public class ConnectionTCP implements Connection {
                         }
 
                     }
-
+                    Thread.sleep(10);
                     if (isLastMoving || isLastSteering) {
                         try {
                             int [] params = {steeringAngle, throttleProc};
@@ -237,6 +239,8 @@ public class ConnectionTCP implements Connection {
         if(mSocket != null) {
             if (mSocket.isConnected()) {
                 try {
+                    outputStream.close();
+                    inputStream.close();
                     mSocket.close();
                 } catch (Exception e) {
                     Log.e(TAG, "the error of the closing connection");

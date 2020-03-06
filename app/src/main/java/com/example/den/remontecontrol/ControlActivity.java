@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -68,6 +69,8 @@ public class ControlActivity extends AppCompatActivity {
     private LinearLayout roadSigns = null;
     private LinearLayout linearLayoutIndic = null;
     private LinearLayout linearLayoutTurn = null;
+    private Button btnEmergency = null;
+    private Button btnDriveDirect = null;
 
     DeluxeSpeedView speedometer1 = null;
     DeluxeSpeedView speedometer2 = null;
@@ -140,7 +143,8 @@ public class ControlActivity extends AppCompatActivity {
         strSign1 = getResources().getString(R.string.current_sign);
         setSignValue(strSign1, imageViewSign1);
         setSignValue(strSign2, imageViewSign2);
-
+        btnEmergency = findViewById(R.id.buttonEmergency);
+        btnDriveDirect = findViewById(R.id.buttonDriveMode);
 
 
         //proc front steer
@@ -298,6 +302,28 @@ public class ControlActivity extends AppCompatActivity {
             }
         });
 
+        btnEmergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commandControl.emergency();
+            }
+        });
+
+        btnDriveDirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String setText = (String) btnDriveDirect.getText();
+                if(setText.equals("вперед")) {
+                    btnDriveDirect.setText("назад");
+                    commandControl.setReverse();
+                }
+                else {
+                    btnDriveDirect.setText("вперед");
+                    commandControl.setForward();
+                }
+            }
+        });
+
         checkOrientation();
 
     }
@@ -325,13 +351,12 @@ public class ControlActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        commandControl.setActiveConn();
+        //commandControl.setActiveConn();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        commandControl.setDeactiveConn();
         Log.d(TAG, "the method onPause() of the ControlActivity");
     }
 
@@ -344,6 +369,7 @@ public class ControlActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //commandControl.setDeactiveConn();
         Log.d(TAG, "the method onDestroy of the ControlActivity");
     }
 
