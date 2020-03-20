@@ -1,4 +1,9 @@
 package com.example.den.remontecontrol;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Handler;
+import android.os.Process;
 import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +12,7 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONException;
@@ -37,12 +43,18 @@ public class ConnectionTCP implements Connection {
     private int prev_readed_bytes = 0;
     private int current_read_bytes = 0;
     private ArrayList<Byte> bytes_buff = new ArrayList<>();
+    private HandlerThread handlerThread = null;
+    private ConnectionHandler connectionHandler = null;
 
     public ConnectionTCP() {
-        sendCommandThread = new Thread(sendCommandRunnable);
         getTelemetryThread = new Thread(getTelemetryRunnable);
-        sendCommandThread.start();
         infoManager = InfoManager.createInfoManager();
+        handlerThread = new HandlerThread("SenderCommand", Process.THREAD_PRIORITY_BACKGROUND);
+        handlerThread.start();
+        Looper looper = handlerThread.getLooper();
+        connectionHandler = new ConnectionHandler(looper);
+        initConnMsg();
+        getTelemetryThread.start();
     }
 
     @Override
@@ -61,9 +73,11 @@ public class ConnectionTCP implements Connection {
     @Override
     public boolean sendCommand(String strCmd) {
         try {
-            jsonObject = new JSONObject(strCmd);
-            String command = jsonObject.getString("action");
-            setCommand(command);
+            synchronized (this) {
+                jsonObject = new JSONObject(strCmd);
+                String command = jsonObject.getString("action");
+                setCommand(command);
+            }
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -78,6 +92,7 @@ public class ConnectionTCP implements Connection {
             steeringAngle = 0;
             isSendingSteering = false;
             isLastSteering = true;
+            sendMsg();
         }
         else if(strCmd.equals("turn_right_down")) {
             setSteeringAngle();
@@ -86,15 +101,18 @@ public class ConnectionTCP implements Connection {
             steeringAngle = 0;
             isSendingSteering = false;
             isLastSteering = true;
+            sendMsg();
         }
         else if(strCmd.equals("racing_down")) {
             signMoving = 1;
             setMovingProc();
+
         }
         else if(strCmd.equals("racing_up")) {
             throttleProc = 0;
             isSendingMoving = false;
             isLastMoving = true;
+            sendMsg();
         }
         else if(strCmd.equals("stopping_down")) {
             signMoving = -1;
@@ -104,6 +122,7 @@ public class ConnectionTCP implements Connection {
             throttleProc = 0;
             isSendingMoving = false;
             isLastMoving = true;
+            sendMsg();
         }
         else {
             Log.e(TAG, "the command's recognised ");
@@ -114,7 +133,8 @@ public class ConnectionTCP implements Connection {
         try {
             JSONObject jsonParams = jsonObject.getJSONObject("params");
             steeringAngle = jsonParams.getInt("steering_angle")/2;
-            isSendingSteering = true;
+            //isSendingSteering = true;
+            sendMsg();
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -133,7 +153,8 @@ public class ConnectionTCP implements Connection {
                 int shift = throttleProc - 800;
                 throttleProc = 800 + shift * signMoving;
             }
-            isSendingMoving = true;
+            sendMsg();
+            //isSendingMoving = true;
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -143,22 +164,14 @@ public class ConnectionTCP implements Connection {
     private Runnable sendCommandRunnable = new Runnable() {
         @Override
         public void run() {
-            initConnection();
+            //initConnection();
             //getTelemetryThread.start();
             while (mRun) {
                 //getInfo();
                 try {
 
                     if(isSendingSteering || isSendingMoving) {
-                        try {
-                            int [] params = {steeringAngle, throttleProc};
-                            if(outputStream != null)
-                                outputStream.write(toByteArray(params));
-                        }
-                        catch (IOException e) {
-                            Log.e(TAG, e.getMessage());
-                        }
-
+                        formmingCommand(steeringAngle, throttleProc);
                     }
                     Thread.sleep(10);
                     if (isLastMoving || isLastSteering) {
@@ -195,7 +208,7 @@ public class ConnectionTCP implements Connection {
         public void run() {
             while (mRun) {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(30);
                     getInfo();
                 }
                 catch (InterruptedException e) {
@@ -304,5 +317,48 @@ public class ConnectionTCP implements Connection {
         infoManager.handleParam((float)velocity, InfoManager.CURRENT_VELOCITY_VALUE);
         infoManager.handleParam((float)angle, InfoManager.CURRENT_STEERING_ANGLE);
         buff = bytes;
+    }
+
+    private void formmingCommand(int steer, int throttle) {
+        try {
+            int [] params = {steer, throttle};
+            if(outputStream != null)
+                outputStream.write(toByteArray(params));
+        }
+        catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private void sendMsg() {
+        Message msg = connectionHandler.obtainMessage();
+        msg.arg1 = 2;
+        connectionHandler.sendMessage(msg);
+    }
+
+    private void sendCommand() {
+        formmingCommand(steeringAngle, throttleProc);
+    }
+
+    private void initConnMsg() {
+        Message msg = connectionHandler.obtainMessage();
+        msg.arg1 = 1;
+        connectionHandler.sendMessage(msg);
+    }
+
+    private final class ConnectionHandler extends Handler {
+        public ConnectionHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.arg1 == 2)
+                sendCommand();
+            else if(msg.arg1 == 1) {
+                initConnection();
+            }
+
+        }
     }
 }

@@ -410,8 +410,9 @@ public class ControlActivity extends AppCompatActivity {
                    setMoving(angle, strength);
                    setSteering(angle, strength);
                 }
-            });
+            }, 10);
         }
+        joystickLeft.setAutoReCenterButton(true);
     }
 
     private void setMoving(int angle, int strength) {
